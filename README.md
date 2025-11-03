@@ -16,9 +16,9 @@ Navaneenth Maruthi & Rowan Lowden
 
 [Video Demo](update)
 
-## Project Objective
+## Project Description
 
-The freelancer will be able to track clients, organize projects, log billable hours, and monitor their income without juggling multiple spreadsheets or tools. We use HTML5, CSS3, and vanilla JavaScript (ES6 modules) for the frontend, Node.js + Express for the backend, MongoDB for data storage
+Alignify is a full-stack productivity web app that helps users plan and execute their goals using Cal Newport’s multiscale planning method. It connects long-term quarterly goals to weekly plans and daily tasks, showing how small actions contribute to bigger objectives. Built with React, Node.js, Express, and MongoDB, Alignify provides a structured and visual system for intentional, goal-driven productivity.
 
 ## Features
 

@@ -28,46 +28,46 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 - 🔑 Persistent login sessions stored in MongoDB
 - 👤 Protected routes and user-specific data
 
-### Quarterly Goal Tracking
-
+### Quarterly Goal Management
 - ✏️ Create, read, update, and delete quarterly goals
-- 📅 Set goal deadlines and track status
-- 🏷️ Categorize by personal, professional, education, etc
+- 📅 Set goal deadlines and track progress with visual progress bars
+- 🏷️ Categorize by horizon (quarter/month) and status (active/completed/paused)
+- 📊 Filter goals by status for focused planning
+- 🎯 Real-time progress calculation across all active goals
 
-### Weekly Progress Tracking
+### Weekly Planning
+- 📆 Create, read, update, and delete weekly plans
+- 🔗 Link weekly plans to quarterly goals to maintain alignment
+- ✅ Define weekly priorities and action items
+- 📝 Write weekly reflections for continuous improvement
+- 📋 Track which long-term goals each week supports
 
-- ⏱️ Create, Read, Update and delete weekly plans as needed
-- Include action tasks and weekly objectives
-- 🔗 Link weekly plans to quarterly goals
-- 💰 Track progress status of weekly tasks
-- write weekly reflection at the end of the week
+### Dashboard Overview
+- 📊 View overall progress at a glance
+- 📈 See total and active goals count
+- 🎯 Monitor active quarterly goals with progress visualization
+- 💡 Quick actions for common tasks
+- 🔄 Real-time data from MongoDB
 
-### Daily Task Planning
-
-- create, update, read, delete daily tasks/todo lists
-- set daily tasks for morning, afternoon, or evening
-- check of daily taks as completed or move to the following day
-- link to weekly plans to break down weekly objectives into smaller daily tasks
-
-### Dashboard
-
-- 📊 View total hours worked at a glance
-- 📈 See project count and active projects
-- 🎯 Monitor top 3 active projects with deadlines
-- 💼 Centralized overview of freelance work
 
 ## Tech Stack update
 
 **Frontend:**
-
-- HTML5, CSS3, Bootstrap 5
-- Vanilla JavaScript (ES6 Modules)
+- React 19 with Hooks (useState, useEffect)
+- React Router DOM for client-side routing
+- Vite for fast development and building
+- PropTypes for component validation
+- CSS3 with component-based organization
 
 **Backend:**
 
-- Node.js + Express.js
+**Backend:**
+- Node.js + Express 5
 - RESTful API architecture
 - Native MongoDB driver (no Mongoose)
+- bcryptjs for password hashing
+- JSON Web Tokens for authentication
+- cookie-parser for session management
 
 **Database:**
 
@@ -79,7 +79,6 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 - Docker - Container platform for MongoDB
 
 **Development Tools**
-
 - Nodemon - Auto-restart development server
 - ESLint - Code linting and quality checks
 - Prettier - Code formatting
@@ -95,83 +94,93 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 ![Weekly Plans](update)
 ![Daily Tasks](update)
 
-## Instructions UPDATE
+## Instructions 
 
-Step 1: Clone the Repository
+### Prerequisites
+- Node.js (v20 or later)
+- MongoDB Atlas account (free tier)
+- Git
 
+### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/NavaneethMaruthi/FreelanceFlow.git
-cd FreelanceFlow
+git clone https://github.com/rlowden22/Alignify.git
+cd Alignify
 ```
 
-Step 2: Install Dependencies
-
+### Step 2: Install Backend Dependencies
 ```bash
+cd backend
 npm install
 ```
 
-This installs all required packages including Express, MongoDB driver, bcryptjs, express-session, and more
-
-Step 3: Configure Environment Variables
-Create a .env file in the root directory:
-
+### Step 3: Install Frontend Dependencies
 ```bash
+cd ../frontend
+npm install
+```
+
+### Step 4: Configure Environment Variables
+Create a `.env` file in the **root directory**:
+```bash
+cd ..
 touch .env
 ```
 
-Add the following configuration to your .env file:
+Add the following to your `.env` file:
+```env
+# Server Configuration
+PORT=5001
+NODE_ENV=development
 
-```
 # MongoDB Connection
-MONGO_URL=mongodb://localhost:27017
+MONGODB_URI=your_mongodb_atlas_connection_string_here
 
-
-# Session Configuration
-SESSION_SECRET=your-super-secret-key-change-this-in-production
+# JWT Secret (generate random string)
+JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
 
 # Cookie Settings
 COOKIE_MAX_AGE=86400000
-
-# Server Configuration
-PORT=3000
-NODE_ENV=development
 ```
 
-Step 4: Set Up MongoDB
-Using Local MongoDB
+**Replace `your_mongodb_atlas_connection_string_here` with your actual MongoDB Atlas connection string.**
 
-macOS: brew install mongodb-community
-Ubuntu/Debian: sudo apt-get install mongodb
-Windows: Download installer from mongodb.com
 
-Step 5: Start Docker
+### Step 5: Start the Application
 
-Step 6: MongoDB
-Create New MongoDB connection and connect it
-(Make sure you make the changes in the code if you are using different names)
-
-Step 5: Start the Application
-Run the development server:
-
+**Terminal 1 - Backend:**
 ```bash
-npm start
+cd backend
+npm run dev
 ```
 
-You should see output similar to:
-
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
 ```
-Starting FreelanceFlow backend...
-✅ Connected to MongoDB
-✅ Server running on http://localhost:3000
-📝 Environment: development
-📁 Serving frontend from /frontend
-📂 Auth routes available at /api/auth
-📂 Projects routes available at /api/projects
-The application is now running at: http://localhost:3000
+
+### Step 6: Access the Application
+
+- **Local Development:** http://localhost:3000
+- **Backend API:** http://localhost:5001
+
+You should see:
+
+**Backend:**
+```
+✅ Connected to MongoDB Atlas
+✅ Server running on http://localhost:5001
+📊 Environment: development
+```
+
+**Frontend:**
+```
+VITE ready in XXX ms
+➜  Local:   http://localhost:3000/
 ```
 
 ## Use of AI
-
+Navaneeth- Use AI for creating Dashboard CSS where we have overall progress to get circle completion and also for better version for Dashboard CSS.
 ## License
 
 MIT License

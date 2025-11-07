@@ -1,0 +1,162 @@
+.weekly-page {
+  padding: 1rem 0;
+}
+
+/* Header with Button */
+.add-task-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+}
+
+.add-task-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Week Plan Card */
+.week-plan-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Linked Goal */
+.linked-goal {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.link-label {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  font-weight: 600;
+}
+
+.goal-link {
+  color: #667eea;
+  font-weight: 600;
+}
+
+/* Priorities Section */
+.priorities-section {
+  margin-bottom: 2rem;
+}
+
+.priorities-section h3 {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.priorities-list {
+  list-style: none;
+  padding: 0;
+}
+
+.priorities-list li {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: #fff9e6;
+  border-left: 3px solid #f39c12;
+  border-radius: 4px;
+  color: #2c3e50;
+}
+
+/* Tasks Section */
+.tasks-section h3 {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.tasks-list {
+  list-style: none;
+  padding: 0;
+}
+
+.tasks-list li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.tasks-list li:hover {
+  background: #e9ecef;
+}
+
+.tasks-list li.completed {
+  opacity: 0.6;
+}
+
+.tasks-list li.completed .task-description {
+  text-decoration: line-through;
+  color: #95a5a6;
+}
+
+.tasks-list input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.task-description {
+  flex: 1;
+  color: #2c3e50;
+}
+
+/* Reflection Card */
+.reflection-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.reflection-card h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.reflection-prompt {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.reflection-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.reflection-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}

@@ -1,13 +1,9 @@
 import React from "react";
-import {
-  Routes,
-  Route,
-  BrowserRouter,
-  Link,
-} from "react-router-dom";
+import { Routes, Route, BrowserRouter, Link } from "react-router-dom";
 import Dashboard from "./components/dashboard.jsx";
 import Quarterly from "./components/Quarterly.jsx";
 import Weekly from "./components/weekly.jsx";
+import PropTypes from "prop-types";
 import "./styles/app.css";
 
 /**
@@ -49,5 +45,7 @@ function App() {
     </BrowserRouter>
   );
 }
+
+App.propTypes = {};
 
 export default App;

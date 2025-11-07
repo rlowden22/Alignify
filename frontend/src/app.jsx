@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Routes,
-  Route,
-  BrowserRouter,
-  Link,
-} from "react-router-dom";
+import { Routes, Route, BrowserRouter, Link } from "react-router-dom";
 import Dashboard from "./components/dashboard.jsx";
 import Quarterly from "./components/Quarterly.jsx";
 import Weekly from "./components/weekly.jsx";

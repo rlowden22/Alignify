@@ -30,16 +30,19 @@ function Weekly() {
         <div>
           <h1 className="page-title">Weekly Plan</h1>
           <p className="page-subtitle">
-            Week of {weekStart.toLocaleDateString()} - {weekEnd.toLocaleDateString()}
+            Week of {weekStart.toLocaleDateString()} -{" "}
+            {weekEnd.toLocaleDateString()}
           </p>
         </div>
         <button className="add-task-btn">+ New Task</button>
       </div>
 
       {/* Weekly Tasks */}
-      {weeklyTasks.map(weekPlan => {
-        const linkedGoal = mockQuarterlyGoals.find(g => g.id === weekPlan.goalId);
-        
+      {weeklyTasks.map((weekPlan) => {
+        const linkedGoal = mockQuarterlyGoals.find(
+          (g) => g.id === weekPlan.goalId,
+        );
+
         return (
           <div key={weekPlan.id} className="week-plan-card">
             {/* Linked Goal */}
@@ -64,10 +67,13 @@ function Weekly() {
             <div className="tasks-section">
               <h3>Tasks</h3>
               <ul className="tasks-list">
-                {weekPlan.tasks.map(task => (
-                  <li key={task.id} className={task.completed ? "completed" : ""}>
-                    <input 
-                      type="checkbox" 
+                {weekPlan.tasks.map((task) => (
+                  <li
+                    key={task.id}
+                    className={task.completed ? "completed" : ""}
+                  >
+                    <input
+                      type="checkbox"
                       checked={task.completed}
                       onChange={() => {}}
                     />

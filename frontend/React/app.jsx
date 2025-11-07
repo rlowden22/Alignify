@@ -1,14 +1,13 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   BrowserRouter,
   Link,
 } from "react-router-dom";
-import Dashboard from "./components/dashboard.js";
-import Quarterly from "./components/Quarterly.js";
-import Weekly from "./components/weekly.js";
+import Dashboard from "./components/dashboard.jsx";
+import Quarterly from "./components/Quarterly.jsx";
+import Weekly from "./components/weekly.jsx";
 import "./styles/app.css";
 
 /**

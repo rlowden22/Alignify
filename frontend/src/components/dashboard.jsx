@@ -98,15 +98,6 @@ function Dashboard() {
           ))}
         </div>
       </section>
-
-      <section className="dashboard-section">
-        <h2 className="section-title">Quick Actions</h2>
-        <div className="quick-actions">
-          <button className="action-btn">+ New Goal</button>
-          <button className="action-btn">Plan This Week</button>
-          <button className="action-btn">Daily Reflection</button>
-        </div>
-      </section>
     </div>
   );
 }

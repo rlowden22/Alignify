@@ -16,8 +16,6 @@ if (!uri) {
 const client = new MongoClient(uri);
 let db = null;
 
-// ==================== CONNECTION ====================
-
 export async function connect() {
   if (db) return db;
 
@@ -37,8 +35,7 @@ export function getDB() {
   return db;
 }
 
-// ==================== GOALS ====================
-
+// QUARTERLY GOALS CRUD OPERATIONS
 export async function getAllGoals(userId) {
   const database = getDB();
   return await database
@@ -90,7 +87,7 @@ export async function deleteGoal(goalId) {
   return result.deletedCount > 0;
 }
 
-// ==================== WEEKLY PLANS ====================
+// Weekly Plans CRUD Operations
 
 export async function getAllWeeklyPlans(userId) {
   const database = getDB();
@@ -115,7 +112,26 @@ export async function createWeeklyPlan(planData) {
   return { _id: result.insertedId, ...newPlan };
 }
 
-// ==================== DAILY TASKS ====================
+export async function updateWeeklyPlan(planId, updates) {
+  const database = getDB();
+  const result = await database
+    .collection("weekly_plans")
+    .updateOne(
+      { _id: new ObjectId(planId) },
+      { $set: { ...updates, updatedAt: new Date() } },
+    );
+  return result.modifiedCount > 0;
+}
+
+export async function deleteWeeklyPlan(planId) {
+  const database = getDB();
+  const result = await database
+    .collection("weekly_plans")
+    .deleteOne({ _id: new ObjectId(planId) });
+  return result.deletedCount > 0;
+}
+
+// Daily Tasks CRUD Operations
 
 export async function getDailyTasks(userId, date) {
   const database = getDB();

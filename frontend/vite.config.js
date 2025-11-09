@@ -8,7 +8,12 @@ export default defineConfig({
     port: 3000, // Frontend runs on 3000
     proxy: {
       "/api": {
-        target: "http://localhost:5001", // Backend will run on 5001
+        target: "http://localhost:5001",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/auth": {
+        target: "http://localhost:5001",
         changeOrigin: true,
         secure: false,
       },

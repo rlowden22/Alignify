@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import apiRoutes from "./routes/routes.js";
+import authRoutes from "./routes/auth.js";
 import { connect } from "./db/myMongoDb.js";
+import session from "express-session";
 
 // Get __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -19,6 +21,14 @@ const PORT = process.env.PORT || 5001;
 // Middleware - JSON parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "super-secret-key",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 // Log all requests
 app.use((req, res, next) => {
@@ -37,6 +47,7 @@ app.get("/", (req, res) => {
 
 // API Routes
 app.use("/api", apiRoutes);
+app.use("/auth", authRoutes); //signup, login, logout
 
 // 404 handler
 app.use((req, res) => {

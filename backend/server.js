@@ -27,7 +27,7 @@ app.use(
     secret: process.env.SESSION_SECRET || "super-secret-key",
     resave: false,
     saveUninitialized: false,
-  }),
+  })
 );
 
 // Log all requests
@@ -36,24 +36,33 @@ app.use((req, res, next) => {
   next();
 });
 
-// Root route
-app.get("/", (req, res) => {
-  res.json({
-    message: "Alignify API Server",
-    status: "running",
-    timestamp: new Date().toISOString(),
-  });
-});
-
 // API Routes
 app.use("/api", apiRoutes);
 app.use("/auth", authRoutes); //signup, login, logout
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
-});
+// Serve static files from React build (production only)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
 
+  // Handle React routing - return all non-API requests to React app
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
+  });
+} else {
+  // Development: Root route returns API info
+  app.get("/", (req, res) => {
+    res.json({
+      message: "Alignify API Server",
+      status: "running",
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  // 404 handler
+  app.use((req, res) => {
+    res.status(404).json({ error: "Route not found" });
+  });
+}
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error("Server error:", err);
@@ -72,7 +81,11 @@ async function startServer() {
     const server = app.listen(PORT, () => {
       console.log(`✅ Server running on http://localhost:${PORT}`);
       console.log(`📊 Environment: ${process.env.NODE_ENV || "development"}`);
-      console.log(`🔗 Test: curl http://localhost:${PORT}/api/test`);
+      if (process.env.NODE_ENV === "production") {
+        console.log(`🌐 Serving React app from /frontend/build`);
+      } else {
+        console.log(`🔗 API Test: curl http://localhost:${PORT}/api/test`);
+      }
     });
 
     // Handle server errors

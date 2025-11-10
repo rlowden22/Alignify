@@ -50,11 +50,11 @@ app.use("/auth", authRoutes); //signup, login, logout
 
 // Serve static files from React build (production only)
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/build")));
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
   // Handle React routing - return all non-API requests to React app
   app.use((req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
   });
 } else {
   // Development: Root route returns API info

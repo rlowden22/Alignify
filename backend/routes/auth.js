@@ -26,7 +26,15 @@ router.post("/signup", async (req, res) => {
       createdAt: new Date(),
     });
 
-    res.status(201).json({ message: "User created", userId: result.insertedId });
+    //return user_id to frontend!
+    res.status(201).json({
+      message: "User created successfully",
+      user: {
+        id: result.insertedId.toString(),
+        email,
+        name: name || "",
+      },
+    });
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({ error: "Signup failed" });
@@ -43,9 +51,15 @@ router.post("/login", async (req, res) => {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ error: "Invalid credentials" });
 
-    // Save minimal info in session (or JWT if needed)
-    req.session.user = { id: user._id, email: user.email };
-    res.json({ message: "Login successful", email: user.email });
+    // Return the full user info needed by the frontend
+    res.json({
+      message: "Login successful",
+      user: {
+        id: user._id.toString(), // <-- This is userid key!
+        email: user.email,
+        name: user.name || "",
+      },
+    });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Login failed" });

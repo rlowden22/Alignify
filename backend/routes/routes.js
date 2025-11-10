@@ -11,13 +11,11 @@ router.get("/test", (req, res) => {
 // GET all goals
 router.get("/goals", async (req, res) => {
   try {
-    // Get first user from database
-    const firstUser = await db.getDB().collection("users").findOne({});
-    if (!firstUser) {
-      return res.status(404).json({ error: "No users found" });
-    }
+    // use user id from database
+    const { userId } = req.query;
+    if (!userId) return res.status(400).json({ error: "Missing userId" });
 
-    const goals = await db.getAllGoals(firstUser._id.toString());
+    const goals = await db.getAllGoals(userId.toString());
     res.json(goals);
   } catch (error) {
     console.error("Error fetching goals:", error);
@@ -42,21 +40,15 @@ router.get("/goals/:id", async (req, res) => {
 // POST create new goal
 router.post("/goals", async (req, res) => {
   try {
-    const { title, description, horizon, startDate, endDate, status } =
+    const { userId, title, description, horizon, startDate, endDate, status } =
       req.body;
 
-    if (!title || !description || !startDate || !endDate) {
+    if (!userId || !title || !description || !startDate || !endDate) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Use same first user logic as GET
-    const firstUser = await db.getDB().collection("users").findOne({});
-    if (!firstUser) {
-      return res.status(404).json({ error: "No users found" });
-    }
-
     const goalData = {
-      userId: firstUser._id.toString(),
+      userId,
       title,
       description,
       horizon: horizon || "quarter",
@@ -113,12 +105,10 @@ router.delete("/goals/:id", async (req, res) => {
 // GET all weekly plans
 router.get("/weekly", async (req, res) => {
   try {
-    const firstUser = await db.getDB().collection("users").findOne({});
-    if (!firstUser) {
-      return res.status(404).json({ error: "No users found" });
-    }
+    const { userId } = req.query;
+    if (!userId) return res.status(400).json({ error: "Missing userId" });
 
-    const plans = await db.getAllWeeklyPlans(firstUser._id.toString());
+    const plans = await db.getAllWeeklyPlans(userId.toString());
     res.json(plans);
   } catch (error) {
     console.error("Error fetching weekly plans:", error);
@@ -129,19 +119,15 @@ router.get("/weekly", async (req, res) => {
 // POST create weekly plan
 router.post("/weekly", async (req, res) => {
   try {
-    const { weekStartDate, goalIds, priorities, reflectionNotes } = req.body;
+    const { userId, weekStartDate, goalIds, priorities, reflectionNotes } =
+      req.body;
 
-    if (!weekStartDate) {
+    if (!userId || !weekStartDate) {
       return res.status(400).json({ error: "Week start date is required" });
     }
 
-    const firstUser = await db.getDB().collection("users").findOne({});
-    if (!firstUser) {
-      return res.status(404).json({ error: "No users found" });
-    }
-
     const planData = {
-      userId: firstUser._id.toString(),
+      userId: userId.toString(),
       weekStartDate: new Date(weekStartDate),
       goalIds: goalIds || [],
       priorities: priorities || [],

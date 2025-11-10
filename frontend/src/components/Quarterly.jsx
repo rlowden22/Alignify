@@ -10,25 +10,27 @@ function Quarterly() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState("all");
   const [editingGoal, setEditingGoal] = useState(null);
-  
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     horizon: "quarter",
     startDate: "",
     endDate: "",
-    status: "active"
+    status: "active",
   });
 
   const fetchGoals = () => {
     setLoading(true);
-    fetch("/api/goals")
-      .then(res => res.json())
-      .then(data => {
+
+    const userId = localStorage.getItem("userId");
+    fetch(`/api/goals?userId=${userId}`)
+      .then((res) => res.json())
+      .then((data) => {
         setGoals(data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error("Error fetching goals:", err);
         setLoading(false);
       });
@@ -40,29 +42,27 @@ function Quarterly() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   // Handle creating new goal
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     try {
-      const url = editingGoal 
-        ? `/api/goals/${editingGoal._id}` 
-        : "/api/goals";
-      
+      const url = editingGoal ? `/api/goals/${editingGoal._id}` : "/api/goals";
+
       const method = editingGoal ? "PUT" : "POST";
 
+      const userId = localStorage.getItem("userId");
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ ...formData, userId }),
       });
 
       if (response.ok) {
@@ -73,7 +73,7 @@ function Quarterly() {
           horizon: "quarter",
           startDate: "",
           endDate: "",
-          status: "active"
+          status: "active",
         });
         setEditingGoal(null);
         setIsModalOpen(false);
@@ -94,9 +94,9 @@ function Quarterly() {
       title: goal.title,
       description: goal.description,
       horizon: goal.horizon,
-      startDate: new Date(goal.startDate).toISOString().split('T')[0],
-      endDate: new Date(goal.endDate).toISOString().split('T')[0],
-      status: goal.status
+      startDate: new Date(goal.startDate).toISOString().split("T")[0],
+      endDate: new Date(goal.endDate).toISOString().split("T")[0],
+      status: goal.status,
     });
     setIsModalOpen(true);
   };
@@ -109,7 +109,7 @@ function Quarterly() {
 
     try {
       const response = await fetch(`/api/goals/${goalId}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
 
       if (response.ok) {
@@ -124,12 +124,17 @@ function Quarterly() {
     }
   };
 
-  const filteredGoals = filterStatus === "all" 
-    ? goals 
-    : goals.filter(goal => goal.status === filterStatus);
+  const filteredGoals =
+    filterStatus === "all"
+      ? goals
+      : goals.filter((goal) => goal.status === filterStatus);
 
   if (loading) {
-    return <div className="quarterly-page"><p>Loading goals...</p></div>;
+    return (
+      <div className="quarterly-page">
+        <p>Loading goals...</p>
+      </div>
+    );
   }
 
   return (
@@ -139,7 +144,7 @@ function Quarterly() {
           <h1 className="page-title">Quarterly Goals</h1>
           <p className="page-subtitle">Manage your long-term objectives</p>
         </div>
-        <button 
+        <button
           className="add-goal-btn"
           onClick={() => {
             setEditingGoal(null);
@@ -149,7 +154,7 @@ function Quarterly() {
               horizon: "quarter",
               startDate: "",
               endDate: "",
-              status: "active"
+              status: "active",
             });
             setIsModalOpen(true);
           }}
@@ -159,36 +164,36 @@ function Quarterly() {
       </div>
 
       <div className="filter-section">
-        <button 
+        <button
           className={`filter-btn ${filterStatus === "all" ? "active" : ""}`}
           onClick={() => setFilterStatus("all")}
         >
           All ({goals.length})
         </button>
-        <button 
+        <button
           className={`filter-btn ${filterStatus === "active" ? "active" : ""}`}
           onClick={() => setFilterStatus("active")}
         >
-          Active ({goals.filter(g => g.status === "active").length})
+          Active ({goals.filter((g) => g.status === "active").length})
         </button>
-        <button 
+        <button
           className={`filter-btn ${filterStatus === "completed" ? "active" : ""}`}
           onClick={() => setFilterStatus("completed")}
         >
-          Completed ({goals.filter(g => g.status === "completed").length})
+          Completed ({goals.filter((g) => g.status === "completed").length})
         </button>
-        <button 
+        <button
           className={`filter-btn ${filterStatus === "paused" ? "active" : ""}`}
           onClick={() => setFilterStatus("paused")}
         >
-          Paused ({goals.filter(g => g.status === "paused").length})
+          Paused ({goals.filter((g) => g.status === "paused").length})
         </button>
       </div>
 
       <div className="goals-grid">
-        {filteredGoals.map(goal => (
-          <GoalCard 
-            key={goal._id} 
+        {filteredGoals.map((goal) => (
+          <GoalCard
+            key={goal._id}
             goal={goal}
             showActions={true}
             onEdit={handleEdit}
@@ -197,7 +202,7 @@ function Quarterly() {
         ))}
       </div>
 
-      <Modal 
+      <Modal
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
@@ -288,12 +293,12 @@ function Quarterly() {
           </div>
 
           <div className="form-actions">
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={() => {
                 setIsModalOpen(false);
                 setEditingGoal(null);
-              }} 
+              }}
               className="cancel-btn"
             >
               Cancel

@@ -4,7 +4,7 @@ import Modal from "./modal.jsx";
 import "../styles/weekly.css";
 
 /**
- * Weekly Component  
+ * Weekly Component
  * Full CRUD operations for weekly plans
  */
 function Weekly() {
@@ -13,12 +13,12 @@ function Weekly() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPlan, setEditingPlan] = useState(null);
-  
+
   const [formData, setFormData] = useState({
     weekStartDate: "",
     goalIds: [],
     priorities: ["", ""],
-    reflectionNotes: ""
+    reflectionNotes: "",
   });
 
   useEffect(() => {
@@ -27,15 +27,17 @@ function Weekly() {
 
   const fetchData = async () => {
     setLoading(true);
+
+    const userId = localStorage.getItem("userId");
     try {
       const [plansRes, goalsRes] = await Promise.all([
-        fetch("/api/weekly"),
-        fetch("/api/goals")
+        fetch(`/api/weekly?userId=${userId}`),
+        fetch(`/api/goals?userId=${userId}`),
       ]);
-      
+
       const plansData = await plansRes.json();
       const goalsData = await goalsRes.json();
-      
+
       setWeeklyPlans(plansData);
       setGoals(goalsData);
       setLoading(false);
@@ -47,36 +49,39 @@ function Weekly() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handlePriorityChange = (index, value) => {
     const newPriorities = [...formData.priorities];
     newPriorities[index] = value;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      priorities: newPriorities
+      priorities: newPriorities,
     }));
   };
 
   const handleGoalSelection = (goalId) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       goalIds: prev.goalIds.includes(goalId)
-        ? prev.goalIds.filter(id => id !== goalId)
-        : [...prev.goalIds, goalId]
+        ? prev.goalIds.filter((id) => id !== goalId)
+        : [...prev.goalIds, goalId],
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const url = editingPlan ? `/api/weekly/${editingPlan._id}` : "/api/weekly";
+      const url = editingPlan
+        ? `/api/weekly/${editingPlan._id}`
+        : "/api/weekly";
       const method = editingPlan ? "PUT" : "POST";
+      const userId = localStorage.getItem("userId");
 
       const response = await fetch(url, {
         method,
@@ -85,8 +90,9 @@ function Weekly() {
         },
         body: JSON.stringify({
           ...formData,
-          priorities: formData.priorities.filter(p => p.trim() !== "")
-        })
+          userId,
+          priorities: formData.priorities.filter((p) => p.trim() !== ""),
+        }),
       });
 
       if (response.ok) {
@@ -95,7 +101,7 @@ function Weekly() {
           weekStartDate: "",
           goalIds: [],
           priorities: ["", ""],
-          reflectionNotes: ""
+          reflectionNotes: "",
         });
         setEditingPlan(null);
         setIsModalOpen(false);
@@ -112,10 +118,10 @@ function Weekly() {
   const handleEdit = (plan) => {
     setEditingPlan(plan);
     setFormData({
-      weekStartDate: new Date(plan.weekStartDate).toISOString().split('T')[0],
-      goalIds: plan.goalIds?.map(id => id.toString()) || [],
+      weekStartDate: new Date(plan.weekStartDate).toISOString().split("T")[0],
+      goalIds: plan.goalIds?.map((id) => id.toString()) || [],
       priorities: plan.priorities || ["", ""],
-      reflectionNotes: plan.reflectionNotes || ""
+      reflectionNotes: plan.reflectionNotes || "",
     });
     setIsModalOpen(true);
   };
@@ -125,7 +131,7 @@ function Weekly() {
 
     try {
       const response = await fetch(`/api/weekly/${planId}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
 
       if (response.ok) {
@@ -150,7 +156,11 @@ function Weekly() {
   weekEnd.setDate(weekStart.getDate() + 6);
 
   if (loading) {
-    return <div className="weekly-page"><p>Loading...</p></div>;
+    return (
+      <div className="weekly-page">
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   return (
@@ -159,10 +169,11 @@ function Weekly() {
         <div>
           <h1 className="page-title">Weekly Plan</h1>
           <p className="page-subtitle">
-            Week of {weekStart.toLocaleDateString()} - {weekEnd.toLocaleDateString()}
+            Week of {weekStart.toLocaleDateString()} -{" "}
+            {weekEnd.toLocaleDateString()}
           </p>
         </div>
-        <button 
+        <button
           className="add-task-btn"
           onClick={() => {
             setEditingPlan(null);
@@ -170,7 +181,7 @@ function Weekly() {
               weekStartDate: "",
               goalIds: [],
               priorities: ["", ""],
-              reflectionNotes: ""
+              reflectionNotes: "",
             });
             setIsModalOpen(true);
           }}
@@ -184,23 +195,26 @@ function Weekly() {
           <p>No weekly plans yet. Create one to get started!</p>
         </div>
       ) : (
-        weeklyPlans.map(plan => {
-          const linkedGoals = plan.goalIds?.map(goalId => 
-            goals.find(g => g._id === goalId.toString())
-          ).filter(Boolean) || [];
+        weeklyPlans.map((plan) => {
+          const linkedGoals =
+            plan.goalIds
+              ?.map((goalId) => goals.find((g) => g._id === goalId.toString()))
+              .filter(Boolean) || [];
 
           return (
             <div key={plan._id} className="week-plan-card">
               <div className="plan-header">
-                <h3>Week of {new Date(plan.weekStartDate).toLocaleDateString()}</h3>
+                <h3>
+                  Week of {new Date(plan.weekStartDate).toLocaleDateString()}
+                </h3>
                 <div className="plan-actions">
-                  <button 
+                  <button
                     className="edit-plan-btn"
                     onClick={() => handleEdit(plan)}
                   >
                     Edit
                   </button>
-                  <button 
+                  <button
                     className="delete-plan-btn"
                     onClick={() => handleDelete(plan._id)}
                   >
@@ -213,7 +227,7 @@ function Weekly() {
                 <div className="linked-goals-section">
                   <h4>Linked Goals:</h4>
                   <div className="linked-goals-list">
-                    {linkedGoals.map(goal => (
+                    {linkedGoals.map((goal) => (
                       <div key={goal._id} className="linked-goal">
                         <span className="goal-link">{goal.title}</span>
                       </div>
@@ -245,7 +259,7 @@ function Weekly() {
       )}
 
       {/* Create/Edit Weekly Plan Modal */}
-      <Modal 
+      <Modal
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
@@ -269,7 +283,7 @@ function Weekly() {
           <div className="form-group">
             <label>Link to Goals (optional)</label>
             <div className="goals-checkbox-list">
-              {goals.slice(0, 10).map(goal => (
+              {goals.slice(0, 10).map((goal) => (
                 <label key={goal._id} className="checkbox-label">
                   <input
                     type="checkbox"
@@ -311,12 +325,12 @@ function Weekly() {
           </div>
 
           <div className="form-actions">
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={() => {
                 setIsModalOpen(false);
                 setEditingPlan(null);
-              }} 
+              }}
               className="cancel-btn"
             >
               Cancel

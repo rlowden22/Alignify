@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import GoalCard from "./goalcard.jsx";
 import "../styles/dashboard.css";
 
@@ -12,10 +11,21 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch goals from backend on component mount
+  // Fetch goals for the logged-in user
   useEffect(() => {
-    fetch("/api/goals")
-      .then((res) => res.json())
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+      // no session → redirect to login
+      window.location.href = "/login";
+      return;
+    }
+
+    fetch(`/api/goals?userId=${userId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch goals");
+        return res.json();
+      })
       .then((data) => {
         setGoals(data);
         setLoading(false);
@@ -27,7 +37,7 @@ function Dashboard() {
       });
   }, []);
 
-  // Get active goals only
+  // Filter active goals
   const activeGoals = goals.filter((goal) => goal.status === "active");
 
   const today = new Date().toLocaleDateString("en-US", {
@@ -42,11 +52,10 @@ function Dashboard() {
     activeGoals.length > 0
       ? Math.round(
           activeGoals.reduce((sum, goal) => sum + goal.progress, 0) /
-            activeGoals.length,
+            activeGoals.length
         )
       : 0;
 
-  // Loading state
   if (loading) {
     return (
       <div className="dashboard">
@@ -55,7 +64,6 @@ function Dashboard() {
     );
   }
 
-  // Error state
   if (error) {
     return (
       <div className="dashboard">
@@ -101,7 +109,5 @@ function Dashboard() {
     </div>
   );
 }
-
-Dashboard.propTypes = {};
 
 export default Dashboard;

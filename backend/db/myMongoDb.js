@@ -74,7 +74,7 @@ export async function updateGoal(goalId, updates) {
     .collection("quarterly_goals")
     .updateOne(
       { _id: new ObjectId(goalId) },
-      { $set: { ...updates, updatedAt: new Date() } },
+      { $set: { ...updates, updatedAt: new Date() } }
     );
   return result.modifiedCount > 0;
 }
@@ -118,7 +118,7 @@ export async function updateWeeklyPlan(planId, updates) {
     .collection("weekly_plans")
     .updateOne(
       { _id: new ObjectId(planId) },
-      { $set: { ...updates, updatedAt: new Date() } },
+      { $set: { ...updates, updatedAt: new Date() } }
     );
   return result.modifiedCount > 0;
 }

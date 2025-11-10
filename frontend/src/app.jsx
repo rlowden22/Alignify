@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -6,23 +6,25 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
-
 import Dashboard from "./components/dashboard.jsx";
 import Quarterly from "./components/Quarterly.jsx";
 import Weekly from "./components/weekly.jsx";
 import Login from "./components/login.jsx";
 import Signup from "./components/signup.jsx";
-import LogoutButton from "./components/LogoutButton.jsx";
 import "./styles/app.css";
 
-/**
- * Inner app logic separated from router
- */
 function AppContent() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("userId")
+  );
   const location = useLocation();
 
-  // ✅ Hide navbar on login and signup pages
+  useEffect(() => {
+    const checkLogin = () => setIsLoggedIn(!!localStorage.getItem("userId"));
+    window.addEventListener("storage", checkLogin);
+    return () => window.removeEventListener("storage", checkLogin);
+  }, []);
+
   const hideNav =
     location.pathname === "/login" ||
     location.pathname === "/signup" ||
@@ -30,7 +32,7 @@ function AppContent() {
 
   return (
     <div className="app">
-      {/* Only show navbar if NOT on login/signup */}
+      {/* Navigation */}
       {!hideNav && (
         <nav className="navbar">
           <div className="nav-container">
@@ -45,20 +47,20 @@ function AppContent() {
               <Link to="/weekly" className="nav-link">
                 Weekly Tasks
               </Link>
-              {isLoggedIn && <LogoutButton />}
+              <Link to="/login" className="nav-link">
+                Logout
+              </Link>
             </div>
           </div>
         </nav>
       )}
 
+      {/* Routes */}
       <main className="main-content">
         <Routes>
-          {/* Auth routes */}
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
-          {/* Dashboard and subpages */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/quarterly" element={<Quarterly />} />
           <Route path="/weekly" element={<Weekly />} />
@@ -68,9 +70,6 @@ function AppContent() {
   );
 }
 
-/**
- * BrowserRouter wraps the whole app — this keeps location in context
- */
 export default function App() {
   return (
     <BrowserRouter>

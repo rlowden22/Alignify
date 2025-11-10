@@ -17,6 +17,7 @@ function Login() {
       const data = await res.json();
       setMessage(data.message || data.error);
       if (res.ok) {
+        localStorage.setItem("userId", data.user.id);
         window.location.href = "/dashboard";
       }
     } catch {

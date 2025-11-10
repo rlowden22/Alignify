@@ -27,7 +27,7 @@ app.use(
     secret: process.env.SESSION_SECRET || "super-secret-key",
     resave: false,
     saveUninitialized: false,
-  })
+  }),
 );
 
 // Log all requests

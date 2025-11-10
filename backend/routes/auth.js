@@ -1,5 +1,5 @@
 import express from "express";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import * as db from "../db/myMongoDb.js"; // reuse your connection
 
 const router = express.Router();

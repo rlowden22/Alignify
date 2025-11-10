@@ -6,7 +6,7 @@ Navaneenth Maruthi & Rowan Lowden
 
 ## Relevant Links
 
-[Web Link](update)
+[Web Link](https://alignify-backend-3362.onrender.com)
 
 [Class Link](https://johnguerra.co/classes/webDevelopment_online_fall_2025/)
 

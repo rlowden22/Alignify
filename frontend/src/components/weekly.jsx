@@ -74,44 +74,57 @@ function Weekly() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const url = editingPlan
-        ? `/api/weekly/${editingPlan._id}`
-        : "/api/weekly";
-      const method = editingPlan ? "PUT" : "POST";
-      const userId = localStorage.getItem("userId");
+  try {
+    const url = editingPlan
+      ? `/api/weekly/${editingPlan._id}`
+      : "/api/weekly";
+    const method = editingPlan ? "PUT" : "POST";
+    const userId = localStorage.getItem("userId");
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+    // Prepare data differently for create vs update
+    const requestData = editingPlan
+      ? {
+          // UPDATE: don't send userId
+          weekStartDate: formData.weekStartDate,
+          goalIds: formData.goalIds,
+          priorities: formData.priorities.filter((p) => p.trim() !== ""),
+          reflectionNotes: formData.reflectionNotes
+        }
+      : {
+          // CREATE: include userId
           ...formData,
           userId,
-          priorities: formData.priorities.filter((p) => p.trim() !== ""),
-        }),
-      });
+          priorities: formData.priorities.filter((p) => p.trim() !== "")
+        };
 
-      if (response.ok) {
-        fetchData();
-        setFormData({
-          weekStartDate: "",
-          goalIds: [],
-          priorities: ["", ""],
-          reflectionNotes: "",
-        });
-        setEditingPlan(null);
-        setIsModalOpen(false);
-        alert(editingPlan ? "Plan updated!" : "Plan created!");
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData)
+    });
+
+    if (response.ok) {
+      fetchData();
+      setFormData({
+        weekStartDate: "",
+        goalIds: [],
+        priorities: ["", ""],
+        reflectionNotes: "",
+      });
+      setEditingPlan(null);
+      setIsModalOpen(false);
+      alert(editingPlan ? "Plan updated!" : "Plan created!");
       } else {
-        alert("Failed to save plan");
-      }
+      const errorData = await response.json();
+        alert(`Failed to save plan: ${errorData.error || 'Unknown error'}`);
+    }
     } catch (error) {
-      console.error("Error saving plan:", error);
-      alert("Error saving plan");
+    console.error("Error saving plan:", error);
+    alert("Error saving plan");
     }
   };
 

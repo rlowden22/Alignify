@@ -15,7 +15,7 @@ import "./styles/app.css";
 
 function AppContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(
-    !!localStorage.getItem("userId")
+    !!localStorage.getItem("userId"),
   );
   const location = useLocation();
 

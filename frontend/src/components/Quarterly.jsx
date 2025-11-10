@@ -18,7 +18,7 @@ function Quarterly() {
     startDate: "",
     endDate: "",
     status: "active",
-    progress: 0 
+    progress: 0,
   });
 
   const fetchGoals = () => {
@@ -51,46 +51,46 @@ function Quarterly() {
 
   // Handle creating new goal
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const url = editingGoal ? `/api/goals/${editingGoal._id}` : "/api/goals";
-    const method = editingGoal ? "PUT" : "POST";
-    const userId = localStorage.getItem("userId");
+    e.preventDefault();
+    try {
+      const url = editingGoal ? `/api/goals/${editingGoal._id}` : "/api/goals";
+      const method = editingGoal ? "PUT" : "POST";
+      const userId = localStorage.getItem("userId");
 
-    // Prepare data differently for create vs update
-    const requestData = editingGoal 
-      ? formData  // UPDATE: send only form fields (no userId)
-      : { ...formData, userId };  // CREATE: include userId
+      // Prepare data differently for create vs update
+      const requestData = editingGoal
+        ? formData // UPDATE: send only form fields (no userId)
+        : { ...formData, userId }; // CREATE: include userId
 
-    const response = await fetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestData)
-    });
-
-    if (response.ok) {
-      fetchGoals();
-      setFormData({
-        title: "",
-        description: "",
-        horizon: "quarter",
-        startDate: "",
-        endDate: "",
-        status: "active",
-        progress: 0
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
       });
-      setEditingGoal(null);
-      setIsModalOpen(false);
-      alert(editingGoal ? "Goal updated!" : "Goal created!");
-     } else {
-      const errorData = await response.json();
-      alert(`Failed to save goal: ${errorData.error || 'Unknown error'}`);
-    }
+
+      if (response.ok) {
+        fetchGoals();
+        setFormData({
+          title: "",
+          description: "",
+          horizon: "quarter",
+          startDate: "",
+          endDate: "",
+          status: "active",
+          progress: 0,
+        });
+        setEditingGoal(null);
+        setIsModalOpen(false);
+        alert(editingGoal ? "Goal updated!" : "Goal created!");
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to save goal: ${errorData.error || "Unknown error"}`);
+      }
     } catch (error) {
-    console.error("Error saving goal:", error);
-    alert("Error saving goal");
+      console.error("Error saving goal:", error);
+      alert("Error saving goal");
     }
   };
 
@@ -163,7 +163,7 @@ function Quarterly() {
               startDate: "",
               endDate: "",
               status: "active",
-              progress: 0 
+              progress: 0,
             });
             setIsModalOpen(true);
           }}

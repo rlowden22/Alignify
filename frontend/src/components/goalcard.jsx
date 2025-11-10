@@ -7,20 +7,23 @@ import "../styles/goalcard.css";
  * Reusable visual box for displaying a goal
  */
 function GoalCard({ goal, onEdit, onDelete, showActions }) {
-  
   const getStatusColor = (status) => {
-    switch(status) {
-      case "active": return "#3498db";
-      case "completed": return "#2ecc71";
-      case "paused": return "#95a5a6";
-      default: return "#7f8c8d";
+    switch (status) {
+      case "active":
+        return "#3498db";
+      case "completed":
+        return "#2ecc71";
+      case "paused":
+        return "#95a5a6";
+      default:
+        return "#7f8c8d";
     }
   };
 
   return (
     <div className="goal-card">
-      <div 
-        className="status-badge" 
+      <div
+        className="status-badge"
         style={{ backgroundColor: getStatusColor(goal.status) }}
       >
         {goal.status}
@@ -35,8 +38,8 @@ function GoalCard({ goal, onEdit, onDelete, showActions }) {
           <span className="progress-percent">{goal.progress}%</span>
         </div>
         <div className="progress-bar">
-          <div 
-            className="progress-fill" 
+          <div
+            className="progress-fill"
             style={{ width: `${goal.progress}%` }}
           ></div>
         </div>
@@ -52,16 +55,10 @@ function GoalCard({ goal, onEdit, onDelete, showActions }) {
       {/* Action Buttons - Only show if showActions prop is true */}
       {showActions && (
         <div className="goal-actions">
-          <button 
-            className="edit-btn"
-            onClick={() => onEdit(goal)}
-          >
+          <button className="edit-btn" onClick={() => onEdit(goal)}>
             Edit
           </button>
-          <button 
-            className="delete-btn"
-            onClick={() => onDelete(goal._id)}
-          >
+          <button className="delete-btn" onClick={() => onDelete(goal._id)}>
             Delete
           </button>
         </div>
@@ -78,17 +75,17 @@ GoalCard.propTypes = {
     status: PropTypes.string.isRequired,
     startDate: PropTypes.string.isRequired,
     endDate: PropTypes.string.isRequired,
-    progress: PropTypes.number.isRequired
+    progress: PropTypes.number.isRequired,
   }).isRequired,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
-  showActions: PropTypes.bool
+  showActions: PropTypes.bool,
 };
 
 GoalCard.defaultProps = {
   showActions: false,
   onEdit: () => {},
-  onDelete: () => {}
+  onDelete: () => {},
 };
 
 export default GoalCard;

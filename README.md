@@ -105,6 +105,7 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 ```bash
 git clone https://github.com/rlowden22/Alignify.git
 cd Alignify
+npm install
 ```
 
 ### Step 2: Install Backend Dependencies

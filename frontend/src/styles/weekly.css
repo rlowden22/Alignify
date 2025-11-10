@@ -364,3 +364,116 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
 }
+
+.daily-tasks-section {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f9fafc;
+  border-radius: 8px;
+}
+
+.daily-tasks-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.daily-day {
+  flex: 1;
+  min-width: 160px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.daily-day strong {
+  display: block;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-list li.done label {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+.empty-task {
+  color: #aaa;
+  font-style: italic;
+}
+
+.daily-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.daily-card {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.daily-card h5 {
+  margin-bottom: 0.5rem;
+}
+
+.add-task-btn {
+  margin-top: 0.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.add-task-btn:hover {
+  background-color: #0056b3;
+}
+
+.daily-day {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.daily-add-container {
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+.add-task-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.add-task-btn:hover {
+  background-color: #0056b3;
+}

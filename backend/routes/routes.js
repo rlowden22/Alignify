@@ -1,4 +1,5 @@
 import express from "express";
+import { ObjectId } from "mongodb"; // ✅ ADD THIS IMPORT
 import * as db from "../db/myMongoDb.js";
 
 const router = express.Router();
@@ -8,10 +9,11 @@ router.get("/test", (req, res) => {
   res.json({ message: "Routes are working!" });
 });
 
+// ==================== GOALS ROUTES ====================
+
 // GET all goals
 router.get("/goals", async (req, res) => {
   try {
-    // use user id from database
     const { userId } = req.query;
     if (!userId) return res.status(400).json({ error: "Missing userId" });
 
@@ -174,6 +176,156 @@ router.delete("/weekly/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting weekly plan:", error);
     res.status(500).json({ error: "Failed to delete weekly plan" });
+  }
+});
+
+// ==================== DAILY TASKS ROUTES ====================
+
+/**
+ * GET /api/daily
+ * Fetch all daily tasks for a specific user + weekly plan
+ */
+router.get("/daily", async (req, res) => {
+  try {
+    const { userId, weeklyPlanId } = req.query;
+
+    if (!userId || !weeklyPlanId) {
+      return res.status(400).json({ error: "Missing userId or weeklyPlanId" });
+    }
+
+    const tasks = await db.getDailyTasks(userId, weeklyPlanId);
+    res.json(Array.isArray(tasks) ? tasks : []);
+  } catch (error) {
+    console.error("Error fetching daily tasks:", error);
+    res.status(500).json({ error: "Failed to fetch daily tasks" });
+  }
+});
+
+/**
+ * POST /api/daily/add
+ * Add a new task for a given weekday
+ */
+router.post("/daily/add", async (req, res) => {
+  try {
+    const { userId, weeklyPlanId, dayName, text } = req.body;
+
+    if (!userId || !weeklyPlanId || !dayName || !text) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const collection = db.getDB().collection("daily_tasks");
+
+    // Validate day name
+    const validDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    if (!validDays.includes(dayName)) {
+      return res.status(400).json({ error: "Invalid dayName" });
+    }
+
+    // Find existing document for this day
+    const filter = {
+      userId,
+      weeklyPlanId,
+      dayName,
+    };
+
+    const existingDay = await collection.findOne(filter);
+
+    if (existingDay) {
+      // Append task to existing day
+      await collection.updateOne(
+        { _id: existingDay._id },
+        {
+          $push: { taskItems: { text, done: false } },
+          $set: { updatedAt: new Date() },
+        }
+      );
+    } else {
+      // Create new document for this day
+      await collection.insertOne({
+        userId,
+        weeklyPlanId,
+        dayName,
+        taskItems: [{ text, done: false }],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    }
+
+    // Return all tasks for this week
+    const tasks = await collection.find({ userId, weeklyPlanId }).toArray();
+
+    res.json(tasks);
+  } catch (err) {
+    console.error("Error in /daily/add:", err);
+    res.status(500).json({ error: "Failed to add daily task" });
+  }
+});
+
+/**
+ * PUT /api/daily/toggle
+ * Toggle the done state of a specific task
+ */
+router.put("/daily/toggle", async (req, res) => {
+  try {
+    const { userId, weeklyPlanId, dayName, taskIndex } = req.body;
+
+    if (!userId || !weeklyPlanId || !dayName || typeof taskIndex !== "number") {
+      return res.status(400).json({ error: "Missing or invalid fields" });
+    }
+
+    const collection = db.getDB().collection("daily_tasks");
+
+    // Find the day document
+    const taskDoc = await collection.findOne({
+      userId,
+      weeklyPlanId,
+      dayName,
+    });
+
+    if (!taskDoc) {
+      return res.status(404).json({ error: "Task day not found" });
+    }
+
+    // Toggle the task at the specified index
+    const updatedItems = taskDoc.taskItems.map((task, i) =>
+      i === taskIndex ? { ...task, done: !task.done } : task
+    );
+
+    await collection.updateOne(
+      { _id: taskDoc._id },
+      { $set: { taskItems: updatedItems, updatedAt: new Date() } }
+    );
+
+    res.json({ message: "Task toggled successfully" });
+  } catch (error) {
+    console.error("Error toggling task:", error);
+    res.status(500).json({ error: "Failed to toggle task" });
+  }
+});
+
+/**
+ * DELETE /api/daily/:dayId/task/:taskIndex
+ * Delete a specific task from a day
+ */
+router.delete("/daily/:dayId/task/:taskIndex", async (req, res) => {
+  try {
+    const { dayId, taskIndex } = req.params;
+    const index = parseInt(taskIndex);
+
+    if (isNaN(index)) {
+      return res.status(400).json({ error: "Invalid task index" });
+    }
+
+    const success = await db.deleteTaskFromDay(dayId, index);
+
+    if (!success) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
+    res.json({ message: "Task deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    res.status(500).json({ error: "Failed to delete task" });
   }
 });
 

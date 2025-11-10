@@ -10,7 +10,7 @@ dotenv.config({ path: join(__dirname, "../../.env") });
 
 const uri = process.env.MONGODB_URI;
 if (!uri) {
-  throw new Error("❌ MONGODB_URI not defined in .env");
+  throw new Error(" MONGODB_URI not defined in .env");
 }
 
 const client = new MongoClient(uri);
@@ -21,11 +21,11 @@ export async function connect() {
 
   try {
     await client.connect();
-    console.log("✅ Connected to MongoDB Atlas");
+    console.log(" Connected to MongoDB Atlas");
     db = client.db("alignify");
     return db;
   } catch (error) {
-    console.error("❌ MongoDB connection error:", error.message);
+    console.error("MongoDB connection error:", error.message);
     throw error;
   }
 }
@@ -74,7 +74,7 @@ export async function updateGoal(goalId, updates) {
     .collection("quarterly_goals")
     .updateOne(
       { _id: new ObjectId(goalId) },
-      { $set: { ...updates, updatedAt: new Date() } },
+      { $set: { ...updates, updatedAt: new Date() } }
     );
   return result.modifiedCount > 0;
 }
@@ -118,7 +118,7 @@ export async function updateWeeklyPlan(planId, updates) {
     .collection("weekly_plans")
     .updateOne(
       { _id: new ObjectId(planId) },
-      { $set: { ...updates, updatedAt: new Date() } },
+      { $set: { ...updates, updatedAt: new Date() } }
     );
   return result.modifiedCount > 0;
 }
@@ -131,29 +131,59 @@ export async function deleteWeeklyPlan(planId) {
   return result.deletedCount > 0;
 }
 
-// Daily Tasks CRUD Operations
+// === DAILY TASKS CRUD OPERATIONS ===
 
-export async function getDailyTasks(userId, date) {
+export async function getDailyTasks(userId, weeklyPlanId) {
   const database = getDB();
+
+  // Query using strings only (no ObjectId conversion)
   return await database
     .collection("daily_tasks")
-    .find({
-      userId: new ObjectId(userId),
-      date: new Date(date),
-    })
+    .find({ userId, weeklyPlanId })
     .toArray();
 }
 
+// Create a new daily task document
 export async function createDailyTask(taskData) {
   const database = getDB();
+
   const newTask = {
     ...taskData,
-    userId: new ObjectId(taskData.userId),
-    weeklyPlanId: new ObjectId(taskData.weeklyPlanId),
     createdAt: new Date(),
     updatedAt: new Date(),
   };
 
   const result = await database.collection("daily_tasks").insertOne(newTask);
   return { _id: result.insertedId, ...newTask };
+}
+
+// Update a daily task document (for toggling checkboxes)
+export async function updateDailyTask(filter, updates) {
+  const database = getDB();
+  const result = await database
+    .collection("daily_tasks")
+    .updateOne(filter, { $set: { ...updates, updatedAt: new Date() } });
+  return result.modifiedCount > 0;
+}
+
+// Delete a specific task from a day's taskItems array
+export async function deleteTaskFromDay(dayId, taskIndex) {
+  const database = getDB();
+
+  const taskDoc = await database
+    .collection("daily_tasks")
+    .findOne({ _id: new ObjectId(dayId) });
+
+  if (!taskDoc) return false;
+
+  const updatedItems = taskDoc.taskItems.filter((_, i) => i !== taskIndex);
+
+  const result = await database
+    .collection("daily_tasks")
+    .updateOne(
+      { _id: new ObjectId(dayId) },
+      { $set: { taskItems: updatedItems, updatedAt: new Date() } }
+    );
+
+  return result.modifiedCount > 0;
 }

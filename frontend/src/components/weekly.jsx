@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Modal from "./modal.jsx";
 import "../styles/weekly.css";
+import DailyTasksSection from "./DailyTasksSection";
 
 /**
  * Weekly Component
- * Full CRUD operations for weekly plans
+ * Full CRUD operations for weekly plans + Daily Tasks section
  */
 function Weekly() {
   const [weeklyPlans, setWeeklyPlans] = useState([]);
@@ -27,8 +28,8 @@ function Weekly() {
 
   const fetchData = async () => {
     setLoading(true);
-
     const userId = localStorage.getItem("userId");
+
     try {
       const [plansRes, goalsRes] = await Promise.all([
         fetch(`/api/weekly?userId=${userId}`),
@@ -83,17 +84,14 @@ function Weekly() {
       const method = editingPlan ? "PUT" : "POST";
       const userId = localStorage.getItem("userId");
 
-      // Prepare data differently for create vs update
       const requestData = editingPlan
         ? {
-            // UPDATE: don't send userId
             weekStartDate: formData.weekStartDate,
             goalIds: formData.goalIds,
             priorities: formData.priorities.filter((p) => p.trim() !== ""),
             reflectionNotes: formData.reflectionNotes,
           }
         : {
-            // CREATE: include userId
             ...formData,
             userId,
             priorities: formData.priorities.filter((p) => p.trim() !== ""),
@@ -260,6 +258,9 @@ function Weekly() {
                 </div>
               )}
 
+              {/* Daily Tasks Section */}
+              <DailyTasksSection planId={plan._id.toString()} />
+
               {plan.reflectionNotes && (
                 <div className="reflection-section">
                   <h4>Reflection</h4>
@@ -357,7 +358,5 @@ function Weekly() {
     </div>
   );
 }
-
-Weekly.propTypes = {};
 
 export default Weekly;

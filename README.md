@@ -42,7 +42,7 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 - 🔗 Link weekly plans to quarterly goals to maintain alignment
 - ✅ Define weekly priorities and action items
 - 📝 Write weekly reflections for continuous improvement
-- 📋 Track which long-term goals each week supports
+- 📋 Delegate daily tasks to accomplish weekly plans
 
 ### Dashboard Overview
 

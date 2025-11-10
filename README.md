@@ -10,7 +10,7 @@ Navaneenth Maruthi & Rowan Lowden
 
 [Class Link](https://johnguerra.co/classes/webDevelopment_online_fall_2025/)
 
-[Design Document](update)
+[Design Document](/Project%203%20Design%20Document.pdf)
 
 [Google Slides](https://docs.google.com/presentation/d/132jix8MGZ1AEinC5uaLW_FS-bUvGiTqpZY9ZRZ1z1oE/edit?usp=sharing)
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import "../styles/daily.css";
 
 function DailyTasksSection({ planId }) {
   const [tasks, setTasks] = useState([]);
@@ -13,7 +14,7 @@ function DailyTasksSection({ planId }) {
   const fetchDailyTasks = async () => {
     try {
       const res = await fetch(
-        `/api/daily?userId=${userId}&weeklyPlanId=${planIdString}`,
+        `/api/daily?userId=${userId}&weeklyPlanId=${planIdString}`
       );
       if (!res.ok) throw new Error("Server returned " + res.status);
       const data = await res.json();
@@ -142,7 +143,7 @@ function DailyTasksSection({ planId }) {
                 </button>
               </div>
             );
-          },
+          }
         )}
       </div>
     </div>

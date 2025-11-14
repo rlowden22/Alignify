@@ -155,3 +155,5 @@ DailyTasksSection.propTypes = {
 };
 
 export default DailyTasksSection;
+/* Code Review: This component (and others in the components folders) seem long (lots of sub functions/consts). 
+I think it could have been helpful to further decompose into sub-components */

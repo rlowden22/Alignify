@@ -10,7 +10,7 @@ Navaneenth Maruthi & Rowan Lowden
 
 [Class Link](https://johnguerra.co/classes/webDevelopment_online_fall_2025/)
 
-[Design Document](/Project%203%20Design%20Document.pdf)
+[Design Document](/Project%203%20Design%20Document.pdf) <!-- Work split between the 2 partners is not clear from the Design Doc-->
 
 [Google Slides](https://docs.google.com/presentation/d/132jix8MGZ1AEinC5uaLW_FS-bUvGiTqpZY9ZRZ1z1oE/edit?usp=sharing)
 
@@ -65,7 +65,7 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 **Backend:**
 
 - Node.js + Express 5
-- RESTful API architecture
+- RESTful API architecture <!-- Where is RESTful API used? Not one of the specified architectures for project 3 -->
 - Native MongoDB driver (no Mongoose)
 - bcryptjs for password hashing
 - JSON Web Tokens for authentication

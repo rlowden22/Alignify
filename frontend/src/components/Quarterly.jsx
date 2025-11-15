@@ -53,6 +53,15 @@ function Quarterly() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+        // Date validation
+        const startDate = new Date(formData.startDate);
+        const endDate = new Date(formData.endDate);
+
+        if (startDate >= endDate) {
+          alert("End date must be after start date!");
+          return;
+        }
+      
       const url = editingGoal ? `/api/goals/${editingGoal._id}` : "/api/goals";
       const method = editingGoal ? "PUT" : "POST";
       const userId = localStorage.getItem("userId");

@@ -111,23 +111,24 @@ function DailyTasksSection({ planId }) {
             const dayData = tasks.find((d) => d.dayName === dayName);
 
             return (
-              <div key={dayName} className="daily-day">
-                <strong>{dayName}</strong>
+              <div key={dayName} className="daily-day daily-card">
+                <strong className="daily-day-header">{dayName}</strong>
                 <ul className="task-list">
                   {dayData &&
                   dayData.taskItems &&
                   dayData.taskItems.length > 0 ? (
                     dayData.taskItems.map((task, i) => (
-                      <li key={i} className={task.done ? "done" : ""}>
-                        <label>
+                      <li key={i} className={`task-item ${task.done ? "done" : ""}`}>
+                        <label className="task-label">
                           <input
                             type="checkbox"
+                            className="task-checkbox"
                             checked={task.done}
                             onChange={() =>
                               handleToggleTask(dayName, i, task.done)
                             }
                           />
-                          {task.text}
+                          <span className="task-text">{task.text}</span>
                         </label>
                       </li>
                     ))
@@ -136,7 +137,7 @@ function DailyTasksSection({ planId }) {
                   )}
                 </ul>
                 <button
-                  className="add-daily-task-btn"
+                  className="add-daily-task-btn btn-gradient"
                   onClick={() => handleAddTask(dayName)}
                 >
                   + Add Task

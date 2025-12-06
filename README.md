@@ -14,7 +14,9 @@ Navaneenth Maruthi & Rowan Lowden
 
 [Google Slides](https://docs.google.com/presentation/d/132jix8MGZ1AEinC5uaLW_FS-bUvGiTqpZY9ZRZ1z1oE/edit?usp=sharing)
 
-[Video Demo](update)
+[Video Demo](https://www.youtube.com/watch?v=4nJ4UCIEYME)
+
+[Usability Study](https://docs.google.com/document/d/14mqtL3fPA4ubc_VmA1cszDvEuumyuZvEmoSKxCS3jZ4/edit?usp=sharing)
 
 ## Project Description
 
@@ -191,10 +193,22 @@ VITE ready in XXX ms
 ➜  Local:   http://localhost:3000/
 ```
 
+## Design and Accessibility (UPDATE)
+
+### Design
+
+- Color Palette
+- Typography
+
+### Accessibility
+
+- Add evidence of lighthouse passing??
+- updated contrast, spacing, elements in sequential order, etc
+
 ## Use of AI
 
-Navaneeth- Use AI for creating Dashboard CSS where we have overall progress to get circle completion and also for better version for Dashboard CSS.
-Rowaan- I used Claude AI to help troubleshoot issues with daily task lists and checkbox toggle. I also used it to help deploy using render.
+- Navaneeth- Use AI for creating Dashboard CSS where we have overall progress to get circle completion and also for better version for Dashboard CSS.
+- Rowaan- I used Claude AI to help troubleshoot issues with daily task lists and checkbox toggle. I also used it to help deploy using render.
 
 ## License
 

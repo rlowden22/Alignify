@@ -197,8 +197,22 @@ VITE ready in XXX ms
 
 ### Design
 
-- Color Palette
-- Typography
+**Color Palette:**
+
+**Typography:**
+This application uses a system UI font stack to provide a clean, familiar, and highly readable interface across devices. Because productivity and goal-management tools require users to quickly scan and process information, the focus of the typography is clarity rather than decorative styling. System fonts are specifically optimized for user interface readability on each operating system (e.g., San Francisco on macOS/iOS, Segoe UI on Windows, Roboto on Android), which creates a native and trustworthy feel. Additionally, because these fonts are already installed on user devices, they require no external downloads—resulting in faster loading times, better performance, and improved accessibility. This typography choice aligns directly with the purpose of the application by reducing distractions and supporting efficient task-focused interaction.
+
+- apple-system — macOS & iOS UI font (San Francisco)
+- BlinkMacSystemFont — Chrome on macOS (San Francisco)
+- Segoe UI — Windows UI font
+- Roboto — Android + ChromeOS UI font
+- Oxygen — KDE Linux desktop font
+- Ubuntu — Ubuntu Linux desktop font
+- Cantarell — GNOME Linux desktop font
+- Fira Sans — Firefox OS font
+- Droid Sans — Older Android UI font
+- Helvetica Neue — Fallback for older Apple systems
+- sans-serif — Generic fallback if none of the above are available
 
 ### Accessibility
 

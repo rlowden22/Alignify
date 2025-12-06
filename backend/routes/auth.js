@@ -6,7 +6,7 @@ import * as db from "../db/myMongoDb.js";
 const router = express.Router();
 const USERS = () => db.getDB().collection("users");
 
-// --- SIGN UP (should NOT have authentication middleware) ---
+// --- SIGN UP  ---
 router.post("/register", async (req, res) => {
   try {
     const { email, password, name } = req.body;
@@ -58,7 +58,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// --- LOGIN (should NOT have authentication middleware) ---
+// --- LOGIN ---
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
@@ -110,7 +110,7 @@ router.post("/logout", (req, res) => {
   });
 });
 
-// --- CHECK AUTH STATUS (no auth required to check status) ---
+// --- CHECK AUTH STATUS  ---
 router.get("/status", (req, res) => {
   if (req.isAuthenticated()) {
     res.json({

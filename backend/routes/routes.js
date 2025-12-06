@@ -17,7 +17,7 @@ router.get("/test", (req, res) => {
   });
 });
 
-// ==================== GOALS ROUTES ====================
+// ==GOALS ROUTES ==
 
 // GET all goals - uses req.user from session
 router.get("/goals", async (req, res) => {
@@ -162,7 +162,7 @@ router.delete("/goals/:id", async (req, res) => {
   }
 });
 
-// ==================== WEEKLY PLANS ROUTES ====================
+// === WEEKLY PLANS ROUTES ===
 
 // GET all weekly plans - uses authenticated user
 router.get("/weekly", async (req, res) => {

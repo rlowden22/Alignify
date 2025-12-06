@@ -6,15 +6,17 @@ Navaneenth Maruthi & Rowan Lowden
 
 ## Relevant Links
 
-[Web Link](update)
+[Web Link](https://alignify-backend-3362.onrender.com)
 
 [Class Link](https://johnguerra.co/classes/webDevelopment_online_fall_2025/)
 
-[Design Document](update)
+[Design Document](/Project%203%20Design%20Document.pdf)
 
 [Google Slides](https://docs.google.com/presentation/d/132jix8MGZ1AEinC5uaLW_FS-bUvGiTqpZY9ZRZ1z1oE/edit?usp=sharing)
 
-[Video Demo](update)
+[Video Demo](https://www.youtube.com/watch?v=4nJ4UCIEYME)
+
+[Usability Study](https://docs.google.com/document/d/14mqtL3fPA4ubc_VmA1cszDvEuumyuZvEmoSKxCS3jZ4/edit?usp=sharing)
 
 ## Project Description
 
@@ -29,6 +31,7 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 - 👤 Protected routes and user-specific data
 
 ### Quarterly Goal Management
+
 - ✏️ Create, read, update, and delete quarterly goals
 - 📅 Set goal deadlines and track progress with visual progress bars
 - 🏷️ Categorize by horizon (quarter/month) and status (active/completed/paused)
@@ -36,23 +39,25 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 - 🎯 Real-time progress calculation across all active goals
 
 ### Weekly Planning
+
 - 📆 Create, read, update, and delete weekly plans
 - 🔗 Link weekly plans to quarterly goals to maintain alignment
 - ✅ Define weekly priorities and action items
 - 📝 Write weekly reflections for continuous improvement
-- 📋 Track which long-term goals each week supports
+- 📋 Delegate daily tasks to accomplish weekly plans
 
 ### Dashboard Overview
+
 - 📊 View overall progress at a glance
 - 📈 See total and active goals count
 - 🎯 Monitor active quarterly goals with progress visualization
 - 💡 Quick actions for common tasks
 - 🔄 Real-time data from MongoDB
 
-
-## Tech Stack update
+## Tech Stack
 
 **Frontend:**
+
 - React 19 with Hooks (useState, useEffect)
 - React Router DOM for client-side routing
 - Vite for fast development and building
@@ -61,7 +66,6 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 
 **Backend:**
 
-**Backend:**
 - Node.js + Express 5
 - RESTful API architecture
 - Native MongoDB driver (no Mongoose)
@@ -78,6 +82,7 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 - Docker - Container platform for MongoDB
 
 **Development Tools**
+
 - Nodemon - Auto-restart development server
 - ESLint - Code linting and quality checks
 - Prettier - Code formatting
@@ -86,21 +91,22 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 
 ## Screenshots
 
-![signup](update)
-![login](update)
-![dashboard]()
-![Quarterly Goals]()
-![Weekly Plans](update)
-![Daily Tasks](update)
+![signup](images/signup.png)
+![login](images/signin.png)
+![dashboard](images/dashboard.png)
+![Quarterly Goals](images/quarterlygoals.png)
+![Weekly Plans](images/weeklyplan.png)
 
-## Instructions 
+## Instructions
 
 ### Prerequisites
+
 - Node.js (v20 or later)
 - MongoDB Atlas account (free tier)
 - Git
 
 ### Step 1: Clone the Repository
+
 ```bash
 git clone https://github.com/rlowden22/Alignify.git
 cd Alignify
@@ -108,25 +114,30 @@ npm install
 ```
 
 ### Step 2: Install Backend Dependencies
+
 ```bash
 cd backend
 npm install
 ```
 
 ### Step 3: Install Frontend Dependencies
+
 ```bash
 cd ../frontend
 npm install
 ```
 
 ### Step 4: Configure Environment Variables
+
 Create a `.env` file in the **root directory**:
+
 ```bash
 cd ..
 touch .env
 ```
 
 Add the following to your `.env` file:
+
 ```env
 # Server Configuration
 PORT=5001
@@ -144,16 +155,17 @@ COOKIE_MAX_AGE=86400000
 
 **Replace `your_mongodb_atlas_connection_string_here` with your actual MongoDB Atlas connection string.**
 
-
 ### Step 5: Start the Application
 
 **Terminal 1 - Backend:**
+
 ```bash
 cd backend
 npm run dev
 ```
 
 **Terminal 2 - Frontend:**
+
 ```bash
 cd frontend
 npm run dev
@@ -167,6 +179,7 @@ npm run dev
 You should see:
 
 **Backend:**
+
 ```
 ✅ Connected to MongoDB Atlas
 ✅ Server running on http://localhost:5001
@@ -174,13 +187,43 @@ You should see:
 ```
 
 **Frontend:**
+
 ```
 VITE ready in XXX ms
 ➜  Local:   http://localhost:3000/
 ```
 
+## Design and Accessibility (UPDATE)
+
+### Design
+
+**Color Palette:**
+
+**Typography:**
+This application uses a system UI font stack to provide a clean, familiar, and highly readable interface across devices. Because productivity and goal-management tools require users to quickly scan and process information, the focus of the typography is clarity rather than decorative styling. System fonts are specifically optimized for user interface readability on each operating system (e.g., San Francisco on macOS/iOS, Segoe UI on Windows, Roboto on Android), which creates a native and trustworthy feel. Additionally, because these fonts are already installed on user devices, they require no external downloads—resulting in faster loading times, better performance, and improved accessibility. This typography choice aligns directly with the purpose of the application by reducing distractions and supporting efficient task-focused interaction.
+
+- apple-system — macOS & iOS UI font (San Francisco)
+- BlinkMacSystemFont — Chrome on macOS (San Francisco)
+- Segoe UI — Windows UI font
+- Roboto — Android + ChromeOS UI font
+- Oxygen — KDE Linux desktop font
+- Ubuntu — Ubuntu Linux desktop font
+- Cantarell — GNOME Linux desktop font
+- Fira Sans — Firefox OS font
+- Droid Sans — Older Android UI font
+- Helvetica Neue — Fallback for older Apple systems
+- sans-serif — Generic fallback if none of the above are available
+
+### Accessibility
+
+- Add evidence of lighthouse passing??
+- updated contrast, spacing, elements in sequential order, etc
+
 ## Use of AI
-Navaneeth- Use AI for creating Dashboard CSS where we have overall progress to get circle completion and also for better version for Dashboard CSS.
+
+- Navaneeth- Use AI for creating Dashboard CSS where we have overall progress to get circle completion and also for better version for Dashboard CSS.
+- Rowaan- I used Claude AI to help troubleshoot issues with daily task lists and checkbox toggle. I also used it to help deploy using render.
+
 ## License
 
 MIT License

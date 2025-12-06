@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Modal from "./modal.jsx";
 import "../styles/weekly.css";
+import "../styles/daily.css";
 import DailyTasksSection from "./DailyTasksSection";
 
 /**

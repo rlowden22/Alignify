@@ -1,111 +1,102 @@
+// backend/server.js
 import express from "express";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-import apiRoutes from "./routes/routes.js";
-import authRoutes from "./routes/auth.js";
-import { connect } from "./db/myMongoDb.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import passport from "passport";
+import dotenv from "dotenv";
+import * as db from "./db/myMongoDb.js";
+import initializePassport from "./config/passport.js";
+import authRoutes from "./routes/auth.js";
+import apiRoutes from "./routes/routes.js";
 
-// Get __dirname in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+dotenv.config();
 
-// Load environment variables
-dotenv.config({ path: path.join(__dirname, "../.env") });
-
-// Initialize Express app
 const app = express();
-const PORT = process.env.PORT || 5001;
 
-// Middleware - JSON parsing
+// Basic middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Connect to MongoDB FIRST
+try {
+  await db.connect();
+  console.log("✅ MongoDB connected");
+} catch (error) {
+  console.error("❌ MongoDB connection failed:", error);
+  process.exit(1);
+}
+
+const database = db.getDB();
+
+// Session configuration - MUST come before Passport
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "super-secret-key",
+    secret:
+      process.env.SESSION_SECRET || "your-secret-key-change-in-production",
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
-      touchAfter: 24 * 3600, // lazy session update (in seconds)
+      collectionName: "sessions",
+      ttl: 24 * 60 * 60,
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
     },
-  })
+  }),
 );
 
-// Log all requests
+console.log("✅ Session middleware configured");
+
+// Initialize Passport - MUST come after session
+app.use(passport.initialize());
+app.use(passport.session());
+
+console.log("✅ Passport middleware initialized");
+
+// Configure Passport strategies
+initializePassport(database);
+
+console.log("✅ Passport strategies configured");
+
+// Debug middleware (optional - remove in production)
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
+  console.log("📍", req.method, req.path);
+  console.log("🔐 Auth:", req.isAuthenticated ? req.isAuthenticated() : false);
   next();
 });
 
-// API Routes
-app.use("/api", apiRoutes);
-app.use("/auth", authRoutes); //signup, login, logout
+// Routes - AUTH ROUTES HAVE NO MIDDLEWARE!
+app.use("/api/auth", authRoutes); // Public routes
+app.use("/api", apiRoutes); // Protected routes (middleware inside)
 
-// Serve static files from React build (production only)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-  // Handle React routing - return all non-API requests to React app
-  app.use((req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+// Health check
+app.get("/", (req, res) => {
+  res.json({
+    message: "Alignify API is running",
+    authenticated: req.isAuthenticated ? req.isAuthenticated() : false,
   });
-} else {
-  // Development: Root route returns API info
-  app.get("/", (req, res) => {
-    res.json({
-      message: "Alignify API Server",
-      status: "running",
-      timestamp: new Date().toISOString(),
-    });
-  });
-
-  // 404 handler
-  app.use((req, res) => {
-    res.status(404).json({ error: "Route not found" });
-  });
-}
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error("Server error:", err);
-  res
-    .status(500)
-    .json({ error: "Internal server error", message: err.message });
 });
 
-// Connect to MongoDB and start server
-async function startServer() {
-  try {
-    // Connect to MongoDB first
-    await connect();
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
 
-    // Then start Express server
-    const server = app.listen(PORT, () => {
-      console.log(`✅ Server running on http://localhost:${PORT}`);
-      console.log(`📊 Environment: ${process.env.NODE_ENV || "development"}`);
-      if (process.env.NODE_ENV === "production") {
-        console.log(`🌐 Serving React app from /frontend/build`);
-      } else {
-        console.log(`🔗 API Test: curl http://localhost:${PORT}/api/test`);
-      }
-    });
+// Error handling
+app.use((err, req, res, next) => {
+  console.error("❌ Error:", err);
+  res.status(500).json({
+    error: "Internal server error",
+    message: err.message,
+  });
+});
 
-    // Handle server errors
-    server.on("error", (err) => {
-      console.error("❌ Server failed to start:", err.message);
-      process.exit(1);
-    });
-  } catch (error) {
-    console.error("❌ Failed to start server:", error.message);
-    process.exit(1);
-  }
-}
-
-// Start the server
-startServer();
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`📊 Environment: ${process.env.NODE_ENV || "development"}`);
+});

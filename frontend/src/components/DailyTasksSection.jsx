@@ -5,7 +5,6 @@ import "../styles/daily.css";
 function DailyTasksSection({ planId }) {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
-  const userId = localStorage.getItem("userId");
 
   // Convert planId to string if it's an ObjectId
   const planIdString = typeof planId === "object" ? planId.toString() : planId;
@@ -14,11 +13,25 @@ function DailyTasksSection({ planId }) {
   const fetchDailyTasks = async () => {
     try {
       const res = await fetch(
-        `/api/daily?userId=${userId}&weeklyPlanId=${planIdString}`
+        `/api/daily?weeklyPlanId=${planIdString}`,
+        {
+          credentials: "include", // Session authentication
+        }
       );
-      if (!res.ok) throw new Error("Server returned " + res.status);
+
+      if (res.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/login";
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error("Server returned " + res.status);
+      }
+
       const data = await res.json();
       setTasks(Array.isArray(data) ? data : []);
+      setError(null);
     } catch (err) {
       console.error("Error fetching daily tasks:", err);
       setError("Could not load daily tasks");
@@ -28,7 +41,7 @@ function DailyTasksSection({ planId }) {
 
   useEffect(() => {
     fetchDailyTasks();
-  }, [planIdString, userId]);
+  }, [planIdString]);
 
   // Add new daily task
   const handleAddTask = async (dayName) => {
@@ -39,15 +52,23 @@ function DailyTasksSection({ planId }) {
       const res = await fetch("/api/daily/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // Include session cookie
         body: JSON.stringify({
-          userId,
           weeklyPlanId: planIdString,
           dayName,
           text: taskText.trim(),
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to add task");
+      if (res.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/login";
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error("Failed to add task");
+      }
 
       const data = await res.json();
       setTasks(Array.isArray(data) ? data : []);
@@ -75,13 +96,19 @@ function DailyTasksSection({ planId }) {
       const res = await fetch(`/api/daily/toggle`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // Include session cookie
         body: JSON.stringify({
-          userId,
           weeklyPlanId: planIdString,
           dayName,
           taskIndex,
         }),
       });
+
+      if (res.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/login";
+        return;
+      }
 
       if (!res.ok) {
         // Revert on failure
@@ -90,6 +117,34 @@ function DailyTasksSection({ planId }) {
       }
     } catch (err) {
       console.error("Error toggling task:", err);
+    }
+  };
+
+  // Delete a specific task
+  const handleDeleteTask = async (dayId, taskIndex) => {
+    if (!confirm("Delete this task?")) return;
+
+    try {
+      const res = await fetch(`/api/daily/${dayId}/task/${taskIndex}`, {
+        method: "DELETE",
+        credentials: "include", // Include session cookie
+      });
+
+      if (res.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/login";
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error("Failed to delete task");
+      }
+
+      // Refresh tasks after deletion
+      fetchDailyTasks();
+    } catch (err) {
+      console.error("Error deleting task:", err);
+      alert("Could not delete task");
     }
   };
 
@@ -127,8 +182,17 @@ function DailyTasksSection({ planId }) {
                               handleToggleTask(dayName, i, task.done)
                             }
                           />
-                          {task.text}
+                          <span>{task.text}</span>
                         </label>
+                        <button
+                          className="delete-task-btn"
+                          onClick={() =>
+                            handleDeleteTask(dayData._id, i)
+                          }
+                          title="Delete task"
+                        >
+                          ×
+                        </button>
                       </li>
                     ))
                   ) : (

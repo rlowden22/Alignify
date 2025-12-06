@@ -76,3 +76,33 @@
     padding: 1rem;
   }
 }
+
+/* Logout button styling */
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* Ensure nav-link class works for buttons too */
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}

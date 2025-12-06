@@ -1,39 +1,56 @@
 import express from "express";
+import passport from "passport";
 import bcrypt from "bcryptjs";
-import * as db from "../db/myMongoDb.js"; // reuse your connection
+import * as db from "../db/myMongoDb.js";
 
 const router = express.Router();
 const USERS = () => db.getDB().collection("users");
 
-// --- SIGN UP ---
-router.post("/signup", async (req, res) => {
+// --- SIGN UP (should NOT have authentication middleware) ---
+router.post("/register", async (req, res) => {
   try {
     const { email, password, name } = req.body;
+
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
 
-    const existing = await USERS().findOne({ email });
+    const existing = await USERS().findOne({ email: email.toLowerCase() });
     if (existing) {
       return res.status(409).json({ error: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await USERS().insertOne({
-      email,
+      email: email.toLowerCase(),
       password: hashedPassword,
       name: name || "",
       createdAt: new Date(),
     });
 
-    //return user_id to frontend!
-    res.status(201).json({
-      message: "User created successfully",
-      user: {
-        id: result.insertedId.toString(),
-        email,
-        name: name || "",
-      },
+    const newUser = {
+      _id: result.insertedId,
+      email: email.toLowerCase(),
+      name: name || "",
+    };
+
+    // Automatically log in after registration
+    req.login(newUser, (err) => {
+      if (err) {
+        console.error("Login after signup error:", err);
+        return res
+          .status(500)
+          .json({ error: "Error logging in after registration" });
+      }
+
+      res.status(201).json({
+        message: "User created successfully",
+        user: {
+          id: newUser._id.toString(),
+          email: newUser.email,
+          name: newUser.name,
+        },
+      });
     });
   } catch (error) {
     console.error("Signup error:", error);
@@ -41,36 +58,72 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// --- LOGIN ---
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await USERS().findOne({ email });
-    if (!user) return res.status(404).json({ error: "User not found" });
+// --- LOGIN (should NOT have authentication middleware) ---
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.error("Login error:", err);
+      return res.status(500).json({ error: "Server error during login" });
+    }
 
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) return res.status(401).json({ error: "Invalid credentials" });
+    if (!user) {
+      return res
+        .status(401)
+        .json({ error: info.message || "Invalid credentials" });
+    }
 
-    // Return the full user info needed by the frontend
-    res.json({
-      message: "Login successful",
-      user: {
-        id: user._id.toString(), // <-- This is userid key!
-        email: user.email,
-        name: user.name || "",
-      },
+    req.login(user, (err) => {
+      if (err) {
+        console.error("Session error:", err);
+        return res.status(500).json({ error: "Error establishing session" });
+      }
+
+      res.json({
+        message: "Login successful",
+        user: {
+          id: user._id.toString(),
+          email: user.email,
+          name: user.name || "",
+        },
+      });
     });
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ error: "Login failed" });
-  }
+  })(req, res, next);
 });
 
 // --- LOGOUT ---
 router.post("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.json({ message: "Logged out" });
+  req.logout((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).json({ error: "Error logging out" });
+    }
+
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Session destroy error:", err);
+        return res.status(500).json({ error: "Error destroying session" });
+      }
+
+      res.clearCookie("connect.sid");
+      res.json({ message: "Logged out successfully" });
+    });
   });
+});
+
+// --- CHECK AUTH STATUS (no auth required to check status) ---
+router.get("/status", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json({
+      authenticated: true,
+      user: {
+        id: req.user._id.toString(),
+        email: req.user.email,
+        name: req.user.name || "",
+      },
+    });
+  } else {
+    res.json({ authenticated: false });
+  }
 });
 
 export default router;

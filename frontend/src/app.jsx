@@ -121,8 +121,8 @@ function AppContent() {
       )}
 
       {/* Routes */}
-      <main 
-        id="main-content" 
+      <main
+        id="main-content"
         className="main-content"
         role="main"
         tabIndex="-1"

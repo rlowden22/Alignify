@@ -47,8 +47,8 @@ function Dashboard() {
       ? Math.round(
           activeGoals.reduce(
             (sum, goal) => sum + (Number(goal.progress) || 0),
-            0
-          ) / activeGoals.length
+            0,
+          ) / activeGoals.length,
         )
       : 0;
 

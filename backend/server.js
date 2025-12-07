@@ -25,7 +25,7 @@ if (!process.env.MONGODB_URI) {
 if (!process.env.SESSION_SECRET) {
   console.error("❌ SESSION_SECRET is not defined in .env");
   console.error(
-    'Generate one with: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"'
+    "Generate one with: node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
   );
   process.exit(1);
 }
@@ -70,7 +70,7 @@ app.use(
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
     proxy: process.env.NODE_ENV === "production",
-  })
+  }),
 );
 
 console.log("✅ Session middleware configured");
@@ -90,7 +90,10 @@ console.log("✅ Passport strategies configured");
 if (process.env.NODE_ENV !== "production") {
   app.use((req, res, next) => {
     console.log("📍", req.method, req.path);
-    console.log("🔐 Auth:", req.isAuthenticated ? req.isAuthenticated() : false);
+    console.log(
+      "🔐 Auth:",
+      req.isAuthenticated ? req.isAuthenticated() : false,
+    );
     next();
   });
 }
@@ -103,10 +106,17 @@ app.use("/api", apiRoutes);
 if (process.env.NODE_ENV === "production") {
   console.log("✅ Serving React static files from ../frontend/dist");
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
-  
+
   // Serve React app for specific routes (no wildcard - Express 5 compatible)
-  const reactRoutes = ["/", "/login", "/signup", "/dashboard", "/quarterly", "/weekly"];
-  reactRoutes.forEach(route => {
+  const reactRoutes = [
+    "/",
+    "/login",
+    "/signup",
+    "/dashboard",
+    "/quarterly",
+    "/weekly",
+  ];
+  reactRoutes.forEach((route) => {
     app.get(route, (req, res) => {
       res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
     });
@@ -127,7 +137,8 @@ app.use((err, req, res, next) => {
   console.error("❌ Error:", err);
   res.status(500).json({
     error: "Internal server error",
-    message: process.env.NODE_ENV === "production" ? "An error occurred" : err.message,
+    message:
+      process.env.NODE_ENV === "production" ? "An error occurred" : err.message,
   });
 });
 

@@ -191,7 +191,7 @@ function DailyTasksSection({ planId }) {
                       </li>
                     ))
                   ) : (
-                    <p className="empty-task">No tasks yet.</p>
+                    <li className="empty-task">No tasks yet.</li> // valid for lighthouse
                   )}
                 </ul>
                 <button
@@ -202,7 +202,7 @@ function DailyTasksSection({ planId }) {
                 </button>
               </div>
             );
-          },
+          }
         )}
       </div>
     </div>

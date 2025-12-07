@@ -235,9 +235,9 @@ function Weekly() {
           return (
             <div key={plan._id} className="week-plan-card">
               <div className="plan-header">
-                <h3>
+                <h2>
                   Week of {new Date(plan.weekStartDate).toLocaleDateString()}
-                </h3>
+                </h2>
                 <div className="plan-actions">
                   <button
                     className="edit-plan-btn"
@@ -256,7 +256,7 @@ function Weekly() {
 
               {linkedGoals.length > 0 && (
                 <div className="linked-goals-section">
-                  <h4>Linked Goals:</h4>
+                  <h3>Linked Goals:</h3>
                   <div className="linked-goals-list">
                     {linkedGoals.map((goal) => (
                       <div key={goal._id} className="linked-goal">

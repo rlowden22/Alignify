@@ -1,112 +1,280 @@
+/* Daily Tasks Section Styling */
 .daily-tasks-section {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: #f9fafc;
-  border-radius: 8px;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.daily-tasks-section h4 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2c3e50;
 }
 
 .daily-tasks-grid {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
 }
 
+/* Individual Day Column */
 .daily-day {
-  flex: 1;
-  min-width: 160px;
-  background: #fff;
-  border-radius: 6px;
-  padding: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background: white;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+
+.daily-day:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .daily-day strong {
   display: block;
-  color: #333;
-  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e1e8ed;
 }
 
+/* Task List */
 .task-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 1rem 0;
+  flex: 1;
 }
 
 .task-list li {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
   gap: 0.5rem;
 }
 
-.task-list li.done label {
-  text-decoration: line-through;
-  color: #aaa;
+.task-list li:hover {
+  background-color: #f1f3f5;
 }
 
-.empty-task {
-  color: #aaa;
-  font-style: italic;
+.task-list li.done {
+  opacity: 0.6;
 }
 
-.daily-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
-}
-
-.daily-card {
-  background: #f9fafb;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.daily-card h5 {
-  margin-bottom: 0.5rem;
-}
-
-.add-task-btn {
-  margin-top: 0.5rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 0.3rem 0.6rem;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.add-task-btn:hover {
-  background-color: #0056b3;
-}
-
-.daily-day {
-  background: #fff;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+.task-list li label {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0; /* Allow text to wrap */
 }
 
-.daily-add-container {
-  margin-top: 0.5rem;
-  text-align: right;
+.task-list li input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+  accent-color: #3498db;
 }
 
-.add-task-btn {
-  background-color: #007bff;
+.task-list li span {
+  font-size: 0.95rem;
+  color: #2c3e50;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.task-list li.done span {
+  text-decoration: line-through;
+  color: #95a5a6;
+}
+
+/* Delete Task Button */
+.delete-task-btn {
+  background: #e74c3c;
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 0.85rem;
-  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  opacity: 0.7;
 }
 
-.add-task-btn:hover {
-  background-color: #0056b3;
+.delete-task-btn:hover {
+  background: #c0392b;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.delete-task-btn:active {
+  transform: scale(0.95);
+}
+
+/* Empty State */
+.empty-task {
+  text-align: center;
+  color: #95a5a6;
+  font-size: 0.9rem;
+  font-style: italic;
+  padding: 2rem 0;
+  margin: 0;
+}
+
+/* Add Task Button */
+.add-daily-task-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: auto; /* Push to bottom */
+}
+
+.add-daily-task-btn:hover {
+  background: #2980b9;
+  transform: translateY(-1px);
+}
+
+.add-daily-task-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .daily-tasks-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .daily-tasks-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .daily-tasks-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .daily-day {
+    min-height: auto;
+    padding: 1rem;
+  }
+  
+  .daily-tasks-section {
+    padding: 1rem;
+  }
+}
+
+/* Improve checkbox styling for better visibility */
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+  .task-list li input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #bdc3c7;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    background: white;
+    transition: all 0.2s ease;
+  }
+
+  .task-list li input[type="checkbox"]:checked {
+    background: #3498db;
+    border-color: #3498db;
+  }
+
+  .task-list li input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .task-list li input[type="checkbox"]:hover {
+    border-color: #3498db;
+  }
+}
+
+/* Animation for adding tasks */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task-list li {
+  animation: slideIn 0.3s ease;
+}
+
+/* Better spacing for day name */
+.daily-day strong {
+  letter-spacing: 0.3px;
+}
+
+/* Scrollbar styling for long task lists */
+.task-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.task-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.task-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+  background: #bdc3c7;
+  border-radius: 10px;
+}
+
+.task-list::-webkit-scrollbar-thumb:hover {
+  background: #95a5a6;
 }

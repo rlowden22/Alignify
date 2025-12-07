@@ -29,13 +29,27 @@ function Weekly() {
 
   const fetchData = async () => {
     setLoading(true);
-    const userId = localStorage.getItem("userId");
 
     try {
       const [plansRes, goalsRes] = await Promise.all([
-        fetch(`/api/weekly?userId=${userId}`),
-        fetch(`/api/goals?userId=${userId}`),
+        fetch(`/api/weekly`, {
+          credentials: "include", // Session authentication
+        }),
+        fetch(`/api/goals`, {
+          credentials: "include", // Session authentication
+        }),
       ]);
+
+      // Check for 401 unauthorized
+      if (plansRes.status === 401 || goalsRes.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/login";
+        return;
+      }
+
+      if (!plansRes.ok || !goalsRes.ok) {
+        throw new Error("Failed to fetch data");
+      }
 
       const plansData = await plansRes.json();
       const goalsData = await goalsRes.json();
@@ -83,26 +97,21 @@ function Weekly() {
         ? `/api/weekly/${editingPlan._id}`
         : "/api/weekly";
       const method = editingPlan ? "PUT" : "POST";
-      const userId = localStorage.getItem("userId");
 
-      const requestData = editingPlan
-        ? {
-            weekStartDate: formData.weekStartDate,
-            goalIds: formData.goalIds,
-            priorities: formData.priorities.filter((p) => p.trim() !== ""),
-            reflectionNotes: formData.reflectionNotes,
-          }
-        : {
-            ...formData,
-            userId,
-            priorities: formData.priorities.filter((p) => p.trim() !== ""),
-          };
+      // No userId needed - server gets it from session
+      const requestData = {
+        weekStartDate: formData.weekStartDate,
+        goalIds: formData.goalIds,
+        priorities: formData.priorities.filter((p) => p.trim() !== ""),
+        reflectionNotes: formData.reflectionNotes,
+      };
 
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include", // Include session cookie
         body: JSON.stringify(requestData),
       });
 
@@ -117,6 +126,9 @@ function Weekly() {
         setEditingPlan(null);
         setIsModalOpen(false);
         alert(editingPlan ? "Plan updated!" : "Plan created!");
+      } else if (response.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/login";
       } else {
         const errorData = await response.json();
         alert(`Failed to save plan: ${errorData.error || "Unknown error"}`);
@@ -144,11 +156,18 @@ function Weekly() {
     try {
       const response = await fetch(`/api/weekly/${planId}`, {
         method: "DELETE",
+        credentials: "include", // Include session cookie
       });
 
       if (response.ok) {
         fetchData();
         alert("Weekly plan deleted!");
+      } else if (response.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/login";
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to delete plan: ${errorData.error || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Error deleting plan:", error);

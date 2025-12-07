@@ -10,13 +10,13 @@ function GoalCard({ goal, onEdit, onDelete, showActions }) {
   const getStatusColor = (status) => {
     switch (status) {
       case "active":
-        return "#3498db";
+        return "#0077CC";
       case "completed":
-        return "#2ecc71";
+        return "#1B7A4A";
       case "paused":
-        return "#95a5a6";
+        return "#A36800";
       default:
-        return "#7f8c8d";
+        return "#475467";
     }
   };
 

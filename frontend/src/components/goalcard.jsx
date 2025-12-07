@@ -29,7 +29,7 @@ function GoalCard({ goal, onEdit, onDelete, showActions }) {
         {goal.status}
       </div>
 
-      <h3 className="goal-title">{goal.title}</h3>
+      <h2 className="goal-title">{goal.title}</h2>
       <p className="goal-description">{goal.description}</p>
 
       <div className="progress-section">

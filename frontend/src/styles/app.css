@@ -76,3 +76,196 @@
     padding: 1rem;
   }
 }
+
+
+/* Global Focus Styles - Make keyboard navigation visible */
+*:focus {
+  outline: 3px solid #3498db;
+  outline-offset: 2px;
+}
+
+/* Skip to main content link (for keyboard users) */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #3498db;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  z-index: 10000;
+  font-weight: 600;
+}
+
+.skip-to-main:focus {
+  top: 0;
+  outline: 3px solid #fff;
+}
+
+/* Navigation Links - Better focus states */
+.nav-link:focus {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Logout Button Styling */
+.logout-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.logout-btn:focus {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Buttons - Better keyboard focus */
+button:focus,
+.add-goal-btn:focus,
+.add-task-btn:focus,
+.add-daily-task-btn:focus,
+.submit-btn:focus,
+.edit-btn:focus,
+.delete-btn:focus,
+.auth-button:focus {
+  outline: 3px solid #3498db;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+}
+
+/* Form inputs - Better focus */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 3px solid #3498db;
+  outline-offset: 2px;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Checkbox focus - Make it very visible */
+input[type="checkbox"]:focus {
+  outline: 3px solid #3498db;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+}
+
+/* Filter buttons - Active and focus states */
+.filter-btn {
+  position: relative;
+}
+
+.filter-btn:focus {
+  outline: 3px solid #3498db;
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.filter-btn.active:focus {
+  outline-color: #fff;
+}
+
+/* Modal close button - Better keyboard support */
+.close-btn {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  color: #7f8c8d;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #2c3e50;
+}
+
+.close-btn:focus {
+  outline: 3px solid #3498db;
+  outline-offset: 2px;
+  color: #2c3e50;
+}
+
+/* Delete task button - Better focus visibility */
+.delete-task-btn:focus {
+  outline: 3px solid #e74c3c;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.2);
+}
+
+/* Goal cards - Make them focusable when they have actions */
+.goal-card:focus-within {
+  box-shadow: 0 4px 20px rgba(52, 152, 219, 0.15);
+  border: 2px solid #3498db;
+}
+
+/* Links - Better focus */
+a:focus {
+  outline: 3px solid #3498db;
+  outline-offset: 2px;
+  text-decoration: underline;
+}
+
+/* Task list items - Better keyboard navigation */
+.task-list li:focus-within {
+  background-color: #e8f4f8;
+  outline: 2px solid #3498db;
+  outline-offset: -2px;
+}
+
+/* Daily day cards - Focus state */
+.daily-day:focus-within {
+  box-shadow: 0 4px 16px rgba(52, 152, 219, 0.2);
+  border: 2px solid #3498db;
+}
+
+/* Auth form fields - Better focus */
+.auth-form input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  *:focus {
+    outline-width: 4px;
+    outline-color: #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible polyfill - Only show outline on keyboard focus */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 3px solid #3498db;
+  outline-offset: 2px;
+}

@@ -214,7 +214,22 @@ This application uses a system UI font stack to provide a clean, familiar, and h
 - Helvetica Neue — Fallback for older Apple systems
 - sans-serif — Generic fallback if none of the above are available
 
-### Accessibility
+
+## ⌨️ Keyboard Navigation & Accessibility
+
+Alignify is fully accessible and can be used entirely with a keyboard, making it inclusive for users who rely on keyboard navigation or assistive technologies.
+
+### Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `Tab` | Navigate forward through interactive elements |
+| `Shift + Tab` | Navigate backward through interactive elements |
+| `Enter` | Activate buttons and links |
+| `Space` | Toggle checkboxes and activate buttons |
+| `Escape` | Close modals and dialogs |
+| `Arrow Keys` | Navigate dropdown menus |
+
 
 - Add evidence of lighthouse passing??
 - updated contrast, spacing, elements in sequential order, etc

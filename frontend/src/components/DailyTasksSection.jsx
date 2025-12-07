@@ -12,12 +12,9 @@ function DailyTasksSection({ planId }) {
   // Fetch daily tasks from backend
   const fetchDailyTasks = async () => {
     try {
-      const res = await fetch(
-        `/api/daily?weeklyPlanId=${planIdString}`,
-        {
-          credentials: "include", // Session authentication
-        }
-      );
+      const res = await fetch(`/api/daily?weeklyPlanId=${planIdString}`, {
+        credentials: "include", // Session authentication
+      });
 
       if (res.status === 401) {
         alert("Session expired. Please log in again.");
@@ -186,9 +183,7 @@ function DailyTasksSection({ planId }) {
                         </label>
                         <button
                           className="delete-task-btn"
-                          onClick={() =>
-                            handleDeleteTask(dayData._id, i)
-                          }
+                          onClick={() => handleDeleteTask(dayData._id, i)}
                           title="Delete task"
                         >
                           ×
@@ -207,7 +202,7 @@ function DailyTasksSection({ planId }) {
                 </button>
               </div>
             );
-          }
+          },
         )}
       </div>
     </div>

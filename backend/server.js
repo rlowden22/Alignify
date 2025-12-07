@@ -1,4 +1,3 @@
-// backend/server.js
 import express from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -10,6 +9,20 @@ import authRoutes from "./routes/auth.js";
 import apiRoutes from "./routes/routes.js";
 
 dotenv.config();
+
+// Validate required environment variables
+if (!process.env.MONGODB_URI) {
+  console.error("❌ MONGODB_URI is not defined in .env");
+  process.exit(1);
+}
+
+if (!process.env.SESSION_SECRET) {
+  console.error("❌ SESSION_SECRET is not defined in .env");
+  console.error(
+    "Generate one with: node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
+  );
+  process.exit(1);
+}
 
 const app = express();
 
@@ -28,11 +41,9 @@ try {
 
 const database = db.getDB();
 
-// Session configuration - MUST come before Passport
 app.use(
   session({
-    secret:
-      process.env.SESSION_SECRET || "your-secret-key-change-in-production",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
@@ -43,9 +54,11 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production", // true in production
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // "none" for cross-origin
     },
+    // Add these for production
+    proxy: process.env.NODE_ENV === "production", // Trust proxy in production
   }),
 );
 

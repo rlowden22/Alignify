@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/auth.css";
-import PropTypes from "prop-types";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -10,16 +9,20 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/auth/login", {
+      const res = await fetch("/api/auth/login", {  // Changed from /auth/login
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // ADDED: Enable cookies
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      setMessage(data.message || data.error);
+      
       if (res.ok) {
-        localStorage.setItem("userId", data.user.id);
+        // Don't store userId anymore - session handles it
+        localStorage.removeItem("userId"); // Clean up old auth
         window.location.href = "/dashboard";
+      } else {
+        setMessage(data.error || "Login failed");
       }
     } catch {
       setMessage("Login failed. Please try again.");
@@ -54,12 +57,13 @@ function Login() {
 
         <p className="auth-message">{message}</p>
         <p className="auth-link">
-          Don’t have an account? <a href="/signup">Sign up</a>
+          Don't have an account? <a href="/signup">Sign up</a>
         </p>
       </div>
     </div>
   );
 }
+
 
 Login.propTypes = {};
 

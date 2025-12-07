@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from "react";
 import GoalCard from "./goalcard.jsx";
 import "../styles/dashboard.css";
-import PropTypes from "prop-types";
 
-/**
- * Dashboard Component
- * Shows overall progress and displays recent goals and upcoming tasks
- */
 function Dashboard() {
   const [goals, setGoals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch goals for the logged-in user
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-
-    if (!userId) {
-      // no session → redirect to login
-      window.location.href = "/login";
-      return;
-    }
-
-    fetch(`/api/goals?userId=${userId}`)
+    // No more userId needed!
+    fetch(`/api/goals`, {
+      credentials: "include", // ADDED
+    })
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch goals");
+        if (!res.ok) {
+          if (res.status === 401) {
+            window.location.href = "/login";
+            return;
+          }
+          throw new Error("Failed to fetch goals");
+        }
         return res.json();
       })
       .then((data) => {
@@ -38,7 +33,6 @@ function Dashboard() {
       });
   }, []);
 
-  // Filter active goals
   const activeGoals = goals.filter((goal) => goal.status === "active");
 
   const today = new Date().toLocaleDateString("en-US", {
@@ -48,32 +42,16 @@ function Dashboard() {
     day: "numeric",
   });
 
-  // Calculate overall progress
   const overallProgress =
     activeGoals.length > 0
       ? Math.round(
-          activeGoals.reduce((sum, goal) => {
-            const progress = Number(goal.progress) || 0;
-            return sum + progress;
-          }, 0) / activeGoals.length,
+          activeGoals.reduce((sum, goal) => sum + (Number(goal.progress) || 0), 0) /
+            activeGoals.length
         )
       : 0;
 
-  if (loading) {
-    return (
-      <div className="dashboard">
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="dashboard">
-        <p>{error}</p>
-      </div>
-    );
-  }
+  if (loading) return <div className="dashboard"><p>Loading...</p></div>;
+  if (error) return <div className="dashboard"><p>{error}</p></div>;
 
   return (
     <div className="dashboard">
@@ -112,6 +90,7 @@ function Dashboard() {
     </div>
   );
 }
+
 
 Dashboard.propTypes = {};
 

@@ -24,11 +24,24 @@ function Quarterly() {
   const fetchGoals = () => {
     setLoading(true);
 
-    const userId = localStorage.getItem("userId");
-    fetch(`/api/goals?userId=${userId}`)
-      .then((res) => res.json())
+    fetch(`/api/goals`, {
+      credentials: "include", // Session cookie authentication
+    })
+      .then((res) => {
+        if (!res.ok) {
+          if (res.status === 401) {
+            // Unauthorized - redirect to login
+            window.location.href = "/login";
+            return;
+          }
+          throw new Error("Failed to fetch goals");
+        }
+        return res.json();
+      })
       .then((data) => {
-        setGoals(data);
+        if (data) {
+          setGoals(data);
+        }
         setLoading(false);
       })
       .catch((err) => {
@@ -49,25 +62,20 @@ function Quarterly() {
     }));
   };
 
-  // Handle creating new goal
+  // Handle creating new goal or updating existing goal
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const url = editingGoal ? `/api/goals/${editingGoal._id}` : "/api/goals";
       const method = editingGoal ? "PUT" : "POST";
-      const userId = localStorage.getItem("userId");
-
-      // Prepare data differently for create vs update
-      const requestData = editingGoal
-        ? formData // UPDATE: send only form fields (no userId)
-        : { ...formData, userId }; // CREATE: include userId
 
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(requestData),
+        credentials: "include", // Include session cookie
+        body: JSON.stringify(formData), // No userId needed - comes from session
       });
 
       if (response.ok) {
@@ -86,7 +94,12 @@ function Quarterly() {
         alert(editingGoal ? "Goal updated!" : "Goal created!");
       } else {
         const errorData = await response.json();
-        alert(`Failed to save goal: ${errorData.error || "Unknown error"}`);
+        if (response.status === 401) {
+          alert("Session expired. Please log in again.");
+          window.location.href = "/login";
+        } else {
+          alert(`Failed to save goal: ${errorData.error || "Unknown error"}`);
+        }
       }
     } catch (error) {
       console.error("Error saving goal:", error);
@@ -118,13 +131,18 @@ function Quarterly() {
     try {
       const response = await fetch(`/api/goals/${goalId}`, {
         method: "DELETE",
+        credentials: "include", // Include session cookie
       });
 
       if (response.ok) {
         fetchGoals();
         alert("Goal deleted successfully!");
+      } else if (response.status === 401) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "/login";
       } else {
-        alert("Failed to delete goal");
+        const errorData = await response.json();
+        alert(`Failed to delete goal: ${errorData.error || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Error deleting goal:", error);
@@ -200,15 +218,24 @@ function Quarterly() {
       </div>
 
       <div className="goals-grid">
-        {filteredGoals.map((goal) => (
-          <GoalCard
-            key={goal._id}
-            goal={goal}
-            showActions={true}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
+        {filteredGoals.length === 0 ? (
+          <div className="empty-state">
+            <p>No {filterStatus !== "all" ? filterStatus : ""} goals yet.</p>
+            {filterStatus === "all" && (
+              <p>Create your first goal to get started!</p>
+            )}
+          </div>
+        ) : (
+          filteredGoals.map((goal) => (
+            <GoalCard
+              key={goal._id}
+              goal={goal}
+              showActions={true}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))
+        )}
       </div>
 
       <Modal

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/auth.css";
-import PropTypes from "prop-types";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -11,15 +10,19 @@ function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/auth/signup", {
+      const res = await fetch("/api/auth/register", {  // Changed to /api/auth/register
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // ADDED
         body: JSON.stringify({ name, email, password }),
       });
       const data = await res.json();
-      setMessage(data.message || data.error);
+      
       if (res.ok) {
-        window.location.href = "/login";
+        // Auto-logged in by Passport, redirect to dashboard
+        window.location.href = "/dashboard";
+      } else {
+        setMessage(data.error || "Signup failed");
       }
     } catch {
       setMessage("Signup failed. Please try again.");
@@ -67,6 +70,7 @@ function Signup() {
     </div>
   );
 }
+
 
 Signup.propTypes = {};
 

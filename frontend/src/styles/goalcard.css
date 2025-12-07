@@ -27,6 +27,19 @@
   margin-bottom: 1rem;
 }
 
+/* Accessible High-Contrast Variants */
+.status-badge.active {
+  background-color: #0077cc; /* Accessible Blue */
+}
+
+.status-badge.completed {
+  background-color: #2e9e6f; /* Accessible Green */
+}
+
+.status-badge.paused {
+  background-color: #c57a00; /* Accessible Amber */
+}
+
 /* Goal Content */
 .goal-title {
   font-size: 1.25rem;
@@ -57,7 +70,7 @@
 
 .progress-percent {
   font-weight: 700;
-  color: #667eea;
+  color: #3d5add;
 }
 
 .progress-bar {
@@ -102,7 +115,7 @@
 
 .edit-btn {
   flex: 1;
-  background: #3498db;
+  background: #0077cc;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -119,7 +132,7 @@
 
 .delete-btn {
   flex: 1;
-  background: #e74c3c;
+  background: #b3261e;
   color: white;
   border: none;
   padding: 0.5rem 1rem;

@@ -10,6 +10,20 @@ import apiRoutes from "./routes/routes.js";
 
 dotenv.config();
 
+// Validate required environment variables
+if (!process.env.MONGODB_URI) {
+  console.error("❌ MONGODB_URI is not defined in .env");
+  process.exit(1);
+}
+
+if (!process.env.SESSION_SECRET) {
+  console.error("❌ SESSION_SECRET is not defined in .env");
+  console.error(
+    "Generate one with: node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
+  );
+  process.exit(1);
+}
+
 const app = express();
 
 // Basic middleware

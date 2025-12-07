@@ -27,19 +27,6 @@
   margin-bottom: 1rem;
 }
 
-/* Accessible High-Contrast Variants */
-.status-badge.active {
-  background-color: #0077cc; /* Accessible Blue */
-}
-
-.status-badge.completed {
-  background-color: #2e9e6f; /* Accessible Green */
-}
-
-.status-badge.paused {
-  background-color: #c57a00; /* Accessible Amber */
-}
-
 /* Goal Content */
 .goal-title {
   font-size: 1.25rem;

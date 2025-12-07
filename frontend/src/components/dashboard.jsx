@@ -47,8 +47,8 @@ function Dashboard() {
       ? Math.round(
           activeGoals.reduce(
             (sum, goal) => sum + (Number(goal.progress) || 0),
-            0,
-          ) / activeGoals.length,
+            0
+          ) / activeGoals.length
         )
       : 0;
 
@@ -74,18 +74,18 @@ function Dashboard() {
 
       <div className="progress-overview">
         <div className="stat-card">
-          <h3>Overall Progress</h3>
+          <h2>Overall Progress</h2>
           <div className="progress-circle">
             <span className="progress-value">{overallProgress}%</span>
           </div>
         </div>
         <div className="stat-card">
-          <h3>Active Goals</h3>
+          <h2>Active Goals</h2>
           <div className="stat-value">{activeGoals.length}</div>
           <p className="stat-label">In Progress</p>
         </div>
         <div className="stat-card">
-          <h3>Total Goals</h3>
+          <h2>Total Goals</h2>
           <div className="stat-value">{goals.length}</div>
           <p className="stat-label">All Time</p>
         </div>

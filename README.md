@@ -198,6 +198,33 @@ VITE ready in XXX ms
 ### Design
 
 **Color Palette:**
+We updated our color palette to improve accessibility and ensure consistent visual meaning across the entire app. Lighthouse identified several low-contrast elements, so we shifted to darker, WCAG-compliant blues, purples, and neutral grays to maintain readability and support users with visual impairments.
+
+Our primary action elements now use a consistent dark blue that represents progress and productivity, while delete/destructive actions use a high-contrast red applied uniformly across pages. Status badges (Active, Completed, Paused) were also updated to meet contrast requirements while preserving their intended meaning.
+
+These changes provide:
+
+- Clear distinction between approval vs. cancel actions
+- Stronger visual hierarchy and improved text legibility
+- A cohesive color system aligned with the app’s productivity purpose
+
+Key updates include:
+
+- Primary action buttons (Edit, Add Task): \* From a lighter blue → #0050A4 (hover: #003D82)
+
+- Destructive actions (Delete): \* From soft red → #C62828 (hover: #A61F1F)
+
+- Status badges:
+
+  - Active → #0050A4
+  - Completed → #1B873D
+  - Paused → #7A7F85
+
+- Headings and metric labels:
+  - Primary text → #1B1E21
+  - Secondary text → #3B434A
+
+Overall, the revised palette resolved Lighthouse contrast failures and enhanced the user experience by making key actions and information easier to see and understand.
 
 **Typography:**
 This application uses a system UI font stack to provide a clean, familiar, and highly readable interface across devices. Because productivity and goal-management tools require users to quickly scan and process information, the focus of the typography is clarity rather than decorative styling. System fonts are specifically optimized for user interface readability on each operating system (e.g., San Francisco on macOS/iOS, Segoe UI on Windows, Roboto on Android), which creates a native and trustworthy feel. Additionally, because these fonts are already installed on user devices, they require no external downloads—resulting in faster loading times, better performance, and improved accessibility. This typography choice aligns directly with the purpose of the application by reducing distractions and supporting efficient task-focused interaction.
@@ -232,7 +259,6 @@ Alignify is fully accessible and can be used entirely with a keyboard, making it
 
 
 - Add evidence of lighthouse passing??
-- updated contrast, spacing, elements in sequential order, etc
 
 ## Use of AI
 

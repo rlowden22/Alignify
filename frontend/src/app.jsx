@@ -71,12 +71,14 @@ function AppContent() {
   if (loading) {
     return (
       <div className="app">
-        <div style={{ 
-          display: "flex", 
-          justifyContent: "center", 
-          alignItems: "center", 
-          height: "100vh" 
-        }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
           <p>Loading...</p>
         </div>
       </div>
@@ -100,8 +102,8 @@ function AppContent() {
               <Link to="/weekly" className="nav-link">
                 Weekly Plans
               </Link>
-              <button 
-                onClick={handleLogout} 
+              <button
+                onClick={handleLogout}
                 className="nav-link"
                 style={{
                   background: "none",
@@ -109,7 +111,7 @@ function AppContent() {
                   cursor: "pointer",
                   color: "inherit",
                   font: "inherit",
-                  padding: "0"
+                  padding: "0",
                 }}
               >
                 Logout

@@ -9,14 +9,15 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/auth/login", {  // Changed from /auth/login
+      const res = await fetch("/api/auth/login", {
+        // Changed from /auth/login
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // ADDED: Enable cookies
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      
+
       if (res.ok) {
         // Don't store userId anymore - session handles it
         localStorage.removeItem("userId"); // Clean up old auth
@@ -63,7 +64,6 @@ function Login() {
     </div>
   );
 }
-
 
 Login.propTypes = {};
 

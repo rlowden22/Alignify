@@ -10,14 +10,15 @@ function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/auth/register", {  // Changed to /api/auth/register
+      const res = await fetch("/api/auth/register", {
+        // Changed to /api/auth/register
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // ADDED
         body: JSON.stringify({ name, email, password }),
       });
       const data = await res.json();
-      
+
       if (res.ok) {
         // Auto-logged in by Passport, redirect to dashboard
         window.location.href = "/dashboard";
@@ -70,7 +71,6 @@ function Signup() {
     </div>
   );
 }
-
 
 Signup.propTypes = {};
 

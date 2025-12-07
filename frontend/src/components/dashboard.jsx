@@ -45,13 +45,25 @@ function Dashboard() {
   const overallProgress =
     activeGoals.length > 0
       ? Math.round(
-          activeGoals.reduce((sum, goal) => sum + (Number(goal.progress) || 0), 0) /
-            activeGoals.length
+          activeGoals.reduce(
+            (sum, goal) => sum + (Number(goal.progress) || 0),
+            0,
+          ) / activeGoals.length,
         )
       : 0;
 
-  if (loading) return <div className="dashboard"><p>Loading...</p></div>;
-  if (error) return <div className="dashboard"><p>{error}</p></div>;
+  if (loading)
+    return (
+      <div className="dashboard">
+        <p>Loading...</p>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="dashboard">
+        <p>{error}</p>
+      </div>
+    );
 
   return (
     <div className="dashboard">
@@ -90,7 +102,6 @@ function Dashboard() {
     </div>
   );
 }
-
 
 Dashboard.propTypes = {};
 

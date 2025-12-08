@@ -9,8 +9,8 @@ function Modal({ isOpen, onClose, title, children }) {
 
   useEffect(() => {
     if (isOpen) {
-      // Focus the close button when modal opens
-      closeButtonRef.current?.focus();
+      // Don't auto-focus close button - let first input get focus naturally
+      // closeButtonRef.current?.focus();
 
       // Keyboard event handler
       const handleKeyDown = (e) => {

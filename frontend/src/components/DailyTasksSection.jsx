@@ -158,52 +158,57 @@ function DailyTasksSection({ planId }) {
     <div className="daily-tasks-section">
       <h4>Daily Tasks</h4>
       <div className="daily-tasks-grid">
-        {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
-          (dayName) => {
-            const dayData = tasks.find((d) => d.dayName === dayName);
+        {[
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Weekend",
+        ].map((dayName) => {
+          const dayData = tasks.find((d) => d.dayName === dayName);
 
-            return (
-              <div key={dayName} className="daily-day">
-                <strong>{dayName}</strong>
-                <ul className="task-list">
-                  {dayData &&
-                  dayData.taskItems &&
-                  dayData.taskItems.length > 0 ? (
-                    dayData.taskItems.map((task, i) => (
-                      <li key={i} className={task.done ? "done" : ""}>
-                        <label>
-                          <input
-                            type="checkbox"
-                            checked={task.done}
-                            onChange={() =>
-                              handleToggleTask(dayName, i, task.done)
-                            }
-                          />
-                          <span>{task.text}</span>
-                        </label>
-                        <button
-                          className="delete-task-btn"
-                          onClick={() => handleDeleteTask(dayData._id, i)}
-                          title="Delete task"
-                        >
-                          ×
-                        </button>
-                      </li>
-                    ))
-                  ) : (
-                    <li className="empty-task">No tasks yet.</li> // valid for lighthouse
-                  )}
-                </ul>
-                <button
-                  className="add-daily-task-btn"
-                  onClick={() => handleAddTask(dayName)}
-                >
-                  + Add Task
-                </button>
-              </div>
-            );
-          }
-        )}
+          return (
+            <div key={dayName} className="daily-day">
+              <strong>{dayName}</strong>
+              <ul className="task-list">
+                {dayData &&
+                dayData.taskItems &&
+                dayData.taskItems.length > 0 ? (
+                  dayData.taskItems.map((task, i) => (
+                    <li key={i} className={task.done ? "done" : ""}>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={task.done}
+                          onChange={() =>
+                            handleToggleTask(dayName, i, task.done)
+                          }
+                        />
+                        <span>{task.text}</span>
+                      </label>
+                      <button
+                        className="delete-task-btn"
+                        onClick={() => handleDeleteTask(dayData._id, i)}
+                        title="Delete task"
+                      >
+                        ×
+                      </button>
+                    </li>
+                  ))
+                ) : (
+                  <li className="empty-task">No tasks yet.</li> // valid for lighthouse
+                )}
+              </ul>
+              <button
+                className="add-daily-task-btn"
+                onClick={() => handleAddTask(dayName)}
+              >
+                + Add Task
+              </button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

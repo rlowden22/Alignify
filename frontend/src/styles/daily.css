@@ -73,7 +73,7 @@
 }
 
 .task-list li.done {
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .task-list li label {
@@ -95,14 +95,14 @@
 
 .task-list li span {
   font-size: 0.95rem;
-  color: #2c3e50;
+  color: #10171d;
   line-height: 1.4;
   word-break: break-word;
 }
 
 .task-list li.done span {
   text-decoration: line-through;
-  color: #2c3e50;
+  color: #10171d;
 }
 
 /* Delete Task Button */

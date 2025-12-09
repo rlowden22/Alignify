@@ -1,4 +1,4 @@
-# Alignify
+# Final Project: Alignify
 
 ## Authors
 
@@ -22,7 +22,7 @@ Navaneenth Maruthi & Rowan Lowden
 
 Alignify is a full-stack productivity web app that helps users plan and execute their goals across quarterly, weekly, and daily timeframes. Built with React, Node.js, Express, and MongoDB, it supports intentional progress toward meaningful objectives.
 
-For our final project, we iterated on the app based on findings from our usability study and the devtool "lighthouse". We improved layout clarity and the discoverability of key features. We also made accessibility updates, including higher-contrast color choices, consistent action colors, semantic heading order, improved spacing and alignment, screen-reader-friendly structure, and keyboard functionality. These changes resolved all Lighthouse accessibility issues and created a more inclusive, user-friendly experience.
+For our final project CS5610, we iterated on the app based on findings from our usability study and the devtool "lighthouse". We improved layout clarity and the discoverability of key features. We also made accessibility updates, including higher-contrast color choices, consistent action colors, semantic heading order, improved spacing and alignment, screen-reader-friendly structure, and keyboard functionality. These changes resolved all Lighthouse accessibility issues and created a more inclusive, user-friendly experience.
 
 ## Features
 
@@ -93,7 +93,7 @@ For our final project, we iterated on the app based on findings from our usabili
 
 ## Screenshots
 
-![signup](images/appscreenshots/signup.png.png)
+![signup](images/appscreenshots/signup.png)
 ![login](images/appscreenshots/signin.png)
 ![dashboard](images/appscreenshots/dashboard.png)
 ![Quarterly Goals](images/appscreenshots/quarterlygoals.png)
@@ -166,7 +166,11 @@ Alignify is fully accessible and can be used entirely with a keyboard, making it
 | `Escape`      | Close modals and dialogs                       |
 | `Arrow Keys`  | Navigate dropdown menus                        |
 
-- Add evidence of lighthouse passing??
+### Lighthouse
+
+After outrupdates, lighthouse dev tool accessibility checker is passing for all pages of Alignify!
+
+![lighthouse](images/lighthouse/weekly.png)
 
 ## Instructions
 

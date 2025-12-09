@@ -91,11 +91,11 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 
 ## Screenshots
 
-![signup](images/signup.png)
-![login](images/signin.png)
-![dashboard](images/dashboard.png)
-![Quarterly Goals](images/quarterlygoals.png)
-![Weekly Plans](images/weeklyplan.png)
+![signup](images/appscreenshots/signup.png.png)
+![login](images/appscreenshots/signin.png)
+![dashboard](images/appscreenshots/dashboard.png)
+![Quarterly Goals](images/appscreenshots/quarterlygoals.png)
+![Weekly Plans](images/appscreenshots/weekly.png)
 
 ## Instructions
 
@@ -241,22 +241,20 @@ This application uses a system UI font stack to provide a clean, familiar, and h
 - Helvetica Neue — Fallback for older Apple systems
 - sans-serif — Generic fallback if none of the above are available
 
-
 ## ⌨️ Keyboard Navigation & Accessibility
 
 Alignify is fully accessible and can be used entirely with a keyboard, making it inclusive for users who rely on keyboard navigation or assistive technologies.
 
 ### Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `Tab` | Navigate forward through interactive elements |
+| Key           | Action                                         |
+| ------------- | ---------------------------------------------- |
+| `Tab`         | Navigate forward through interactive elements  |
 | `Shift + Tab` | Navigate backward through interactive elements |
-| `Enter` | Activate buttons and links |
-| `Space` | Toggle checkboxes and activate buttons |
-| `Escape` | Close modals and dialogs |
-| `Arrow Keys` | Navigate dropdown menus |
-
+| `Enter`       | Activate buttons and links                     |
+| `Space`       | Toggle checkboxes and activate buttons         |
+| `Escape`      | Close modals and dialogs                       |
+| `Arrow Keys`  | Navigate dropdown menus                        |
 
 - Add evidence of lighthouse passing??
 

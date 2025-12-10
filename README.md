@@ -6,17 +6,17 @@ Navaneenth Maruthi & Rowan Lowden
 
 ## Relevant Links
 
-[Web Link](alignify-6va4.onrender.com)
+[Web Link](https://alignify-6va4.onrender.com)
 
 [Class Link](https://johnguerra.co/classes/webDevelopment_online_fall_2025/)
 
 [Design Document](/Project%203%20Design%20Document.pdf)
 
-[Google Slides](https://docs.google.com/presentation/d/132jix8MGZ1AEinC5uaLW_FS-bUvGiTqpZY9ZRZ1z1oE/edit?usp=sharing)
+[Google Slides](https://docs.google.com/presentation/d/1RoRdEvL57Q36DXU1fCk8MdS7CqbpqZLKZj4_6eoGr9U/edit?usp=sharing)
 
-[Video Demo](https://www.youtube.com/watch?v=4nJ4UCIEYME)
+[Video Demo]()
 
-[Usability Study](https://docs.google.com/presentation/d/1RoRdEvL57Q36DXU1fCk8MdS7CqbpqZLKZj4_6eoGr9U/edit?usp=sharing)
+[Usability Study](https://docs.google.com/document/d/14mqtL3fPA4ubc_VmA1cszDvEuumyuZvEmoSKxCS3jZ4/edit?usp=sharing)
 
 ## Project Description
 
@@ -168,7 +168,7 @@ Alignify is fully accessible and can be used entirely with a keyboard, making it
 
 ### Lighthouse
 
-After outrupdates, lighthouse dev tool accessibility checker is passing for all pages of Alignify!
+After our updates to Alignify, the Lighthouse accessibility checker passes at 100% for all pages of Alignify!
 
 ![lighthouse](images/lighthouse/weekly.png)
 

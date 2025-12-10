@@ -1,4 +1,4 @@
-# Alignify
+# Final Project: Alignify
 
 ## Authors
 
@@ -6,21 +6,23 @@ Navaneenth Maruthi & Rowan Lowden
 
 ## Relevant Links
 
-[Web Link](https://alignify-backend-3362.onrender.com)
+[Web Link](https://alignify-6va4.onrender.com)
 
 [Class Link](https://johnguerra.co/classes/webDevelopment_online_fall_2025/)
 
 [Design Document](/Project%203%20Design%20Document.pdf)
 
-[Google Slides](https://docs.google.com/presentation/d/132jix8MGZ1AEinC5uaLW_FS-bUvGiTqpZY9ZRZ1z1oE/edit?usp=sharing)
+[Google Slides](https://docs.google.com/presentation/d/1RoRdEvL57Q36DXU1fCk8MdS7CqbpqZLKZj4_6eoGr9U/edit?usp=sharing)
 
-[Video Demo](https://www.youtube.com/watch?v=4nJ4UCIEYME)
+[Video Demo](https://youtu.be/wfD-0JWvRwY)
 
 [Usability Study](https://docs.google.com/document/d/14mqtL3fPA4ubc_VmA1cszDvEuumyuZvEmoSKxCS3jZ4/edit?usp=sharing)
 
 ## Project Description
 
-Alignify is a full-stack productivity web app that helps users plan and execute their goals using Cal Newport’s multiscale planning method. It connects long-term quarterly goals to weekly plans and daily tasks, showing how small actions contribute to bigger objectives. Built with React, Node.js, Express, and MongoDB, Alignify provides a structured and visual system for intentional, goal-driven productivity.
+Alignify is a full-stack productivity web app that helps users plan and execute their goals across quarterly, weekly, and daily timeframes. Built with React, Node.js, Express, and MongoDB, it supports intentional progress toward meaningful objectives.
+
+For our final project CS5610, we iterated on the app based on findings from our usability study and the devtool "lighthouse". We improved layout clarity and the discoverability of key features. We also made accessibility updates, including higher-contrast color choices, consistent action colors, semantic heading order, improved spacing and alignment, screen-reader-friendly structure, and keyboard functionality. These changes resolved all Lighthouse accessibility issues and created a more inclusive, user-friendly experience.
 
 ## Features
 
@@ -91,11 +93,84 @@ Alignify is a full-stack productivity web app that helps users plan and execute 
 
 ## Screenshots
 
-![signup](images/signup.png)
-![login](images/signin.png)
-![dashboard](images/dashboard.png)
-![Quarterly Goals](images/quarterlygoals.png)
-![Weekly Plans](images/weeklyplan.png)
+![signup](images/appscreenshots/signup.png)
+![login](images/appscreenshots/signin.png)
+![dashboard](images/appscreenshots/dashboard.png)
+![Quarterly Goals](images/appscreenshots/quarterlygoals.png)
+![Weekly Plans](images/appscreenshots/weekly.png)
+
+## Design and Accessibility
+
+### Design
+
+**Color Palette:**
+We updated our color palette to improve accessibility and ensure consistent visual meaning across the entire app. Lighthouse identified several low-contrast elements, so we shifted to darker, WCAG-compliant blues, purples, and neutral grays to maintain readability and support users with visual impairments.
+
+Our primary action elements now use a consistent dark blue that represents progress and productivity, while delete/destructive actions use a high-contrast red applied uniformly across pages. Status badges (Active, Completed, Paused) were also updated to meet contrast requirements while preserving their intended meaning.
+
+These changes provide:
+
+- Clear distinction between approval vs. cancel actions
+- Stronger visual hierarchy and improved text legibility
+- A cohesive color system aligned with the app’s productivity purpose
+
+Key updates include:
+
+- Primary action buttons (Edit, Add Task): \* From a lighter blue → #0050A4
+
+- Destructive actions (Delete): \* From soft red → #C62828
+
+- Status badges:
+
+  - Active → #0050A4
+  - Completed → #1B873D
+  - Paused → #c7610eff
+
+- Headings and metric labels:
+  - Primary text → #1B1E21
+  - Secondary text → #3B434A
+
+Overall, the revised palette resolved Lighthouse contrast failures and enhanced the user experience by making key actions and information easier to see and understand.
+
+We used the following resources to help us with color and contrast
+https://color.adobe.com/create/color-wheel
+https://accessibleweb.com/color-contrast-checker/
+
+**Typography:**
+This application uses a system UI font stack to provide a clean, familiar, and highly readable interface across devices. Because productivity and goal-management tools require users to quickly scan and process information, the focus of the typography is clarity rather than decorative styling. System fonts are specifically optimized for user interface readability on each operating system (e.g., San Francisco on macOS/iOS, Segoe UI on Windows, Roboto on Android), which creates a native and trustworthy feel. Additionally, because these fonts are already installed on user devices, they require no external downloads—resulting in faster loading times, better performance, and improved accessibility. This typography choice aligns directly with the purpose of the application by reducing distractions and supporting efficient task-focused interaction.
+
+- apple-system — macOS & iOS UI font (San Francisco)
+- BlinkMacSystemFont — Chrome on macOS (San Francisco)
+- Segoe UI — Windows UI font
+- Roboto — Android + ChromeOS UI font
+- Oxygen — KDE Linux desktop font
+- Ubuntu — Ubuntu Linux desktop font
+- Cantarell — GNOME Linux desktop font
+- Fira Sans — Firefox OS font
+- Droid Sans — Older Android UI font
+- Helvetica Neue — Fallback for older Apple systems
+- sans-serif — Generic fallback if none of the above are available
+
+## ⌨️ Keyboard Navigation & Accessibility
+
+Alignify is fully accessible and can be used entirely with a keyboard, making it inclusive for users who rely on keyboard navigation or assistive technologies.
+
+### Keyboard Shortcuts
+
+| Key           | Action                                         |
+| ------------- | ---------------------------------------------- |
+| `Tab`         | Navigate forward through interactive elements  |
+| `Shift + Tab` | Navigate backward through interactive elements |
+| `Enter`       | Activate buttons and links                     |
+| `Space`       | Toggle checkboxes and activate buttons         |
+| `Escape`      | Close modals and dialogs                       |
+| `Arrow Keys`  | Navigate dropdown menus                        |
+
+### Lighthouse
+
+After our updates to Alignify, the Lighthouse accessibility checker passes at 100% for all pages of Alignify!
+
+![lighthouse](images/lighthouse/weekly.png)
 
 ## Instructions
 
@@ -193,77 +268,10 @@ VITE ready in XXX ms
 ➜  Local:   http://localhost:3000/
 ```
 
-## Design and Accessibility (UPDATE)
-
-### Design
-
-**Color Palette:**
-We updated our color palette to improve accessibility and ensure consistent visual meaning across the entire app. Lighthouse identified several low-contrast elements, so we shifted to darker, WCAG-compliant blues, purples, and neutral grays to maintain readability and support users with visual impairments.
-
-Our primary action elements now use a consistent dark blue that represents progress and productivity, while delete/destructive actions use a high-contrast red applied uniformly across pages. Status badges (Active, Completed, Paused) were also updated to meet contrast requirements while preserving their intended meaning.
-
-These changes provide:
-
-- Clear distinction between approval vs. cancel actions
-- Stronger visual hierarchy and improved text legibility
-- A cohesive color system aligned with the app’s productivity purpose
-
-Key updates include:
-
-- Primary action buttons (Edit, Add Task): \* From a lighter blue → #0050A4 (hover: #003D82)
-
-- Destructive actions (Delete): \* From soft red → #C62828 (hover: #A61F1F)
-
-- Status badges:
-
-  - Active → #0050A4
-  - Completed → #1B873D
-  - Paused → #7A7F85
-
-- Headings and metric labels:
-  - Primary text → #1B1E21
-  - Secondary text → #3B434A
-
-Overall, the revised palette resolved Lighthouse contrast failures and enhanced the user experience by making key actions and information easier to see and understand.
-
-**Typography:**
-This application uses a system UI font stack to provide a clean, familiar, and highly readable interface across devices. Because productivity and goal-management tools require users to quickly scan and process information, the focus of the typography is clarity rather than decorative styling. System fonts are specifically optimized for user interface readability on each operating system (e.g., San Francisco on macOS/iOS, Segoe UI on Windows, Roboto on Android), which creates a native and trustworthy feel. Additionally, because these fonts are already installed on user devices, they require no external downloads—resulting in faster loading times, better performance, and improved accessibility. This typography choice aligns directly with the purpose of the application by reducing distractions and supporting efficient task-focused interaction.
-
-- apple-system — macOS & iOS UI font (San Francisco)
-- BlinkMacSystemFont — Chrome on macOS (San Francisco)
-- Segoe UI — Windows UI font
-- Roboto — Android + ChromeOS UI font
-- Oxygen — KDE Linux desktop font
-- Ubuntu — Ubuntu Linux desktop font
-- Cantarell — GNOME Linux desktop font
-- Fira Sans — Firefox OS font
-- Droid Sans — Older Android UI font
-- Helvetica Neue — Fallback for older Apple systems
-- sans-serif — Generic fallback if none of the above are available
-
-
-## ⌨️ Keyboard Navigation & Accessibility
-
-Alignify is fully accessible and can be used entirely with a keyboard, making it inclusive for users who rely on keyboard navigation or assistive technologies.
-
-### Keyboard Shortcuts
-
-| Key | Action |
-|-----|--------|
-| `Tab` | Navigate forward through interactive elements |
-| `Shift + Tab` | Navigate backward through interactive elements |
-| `Enter` | Activate buttons and links |
-| `Space` | Toggle checkboxes and activate buttons |
-| `Escape` | Close modals and dialogs |
-| `Arrow Keys` | Navigate dropdown menus |
-
-
-- Add evidence of lighthouse passing??
-
 ## Use of AI
 
 - Navaneeth- Use AI for creating Dashboard CSS where we have overall progress to get circle completion and also for better version for Dashboard CSS.
-- Rowaan- I used Claude AI to help troubleshoot issues with daily task lists and checkbox toggle. I also used it to help deploy using render.
+- Rowan- I used Claude AI to help troubleshoot issues with daily task lists and checkbox toggle. I also used it to help deploy using render.
 
 ## License
 

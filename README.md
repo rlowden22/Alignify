@@ -14,7 +14,7 @@ Navaneenth Maruthi & Rowan Lowden
 
 [Google Slides](https://docs.google.com/presentation/d/1RoRdEvL57Q36DXU1fCk8MdS7CqbpqZLKZj4_6eoGr9U/edit?usp=sharing)
 
-[Video Demo]()
+[Video Demo](https://youtu.be/wfD-0JWvRwY)
 
 [Usability Study](https://docs.google.com/document/d/14mqtL3fPA4ubc_VmA1cszDvEuumyuZvEmoSKxCS3jZ4/edit?usp=sharing)
 
